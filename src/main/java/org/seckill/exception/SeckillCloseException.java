@@ -1,7 +1,8 @@
 package org.seckill.exception;
 
 /**
- * 秒杀关闭异常
+ * 秒杀关闭
+ * Created by never615 on 6/16/16.
  */
 public class SeckillCloseException extends SeckillException {
 

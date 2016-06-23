@@ -8,36 +8,44 @@
 
     <!-- int reduceNumber(long seckillId, Date killTime);-->
     <update id="reduceNumber">
-       UPDATE seckill set number = number -1
-       where seckill_id = #{seckillId}
-       AND  start_time <![CDATA[ <= ]]> #{killTime}
-       AND  end_time >= #{killTime}
-       AND number >0;
-   </update>
+        UPDATE seckills
+        SET remain = remain - 1
+        WHERE id = #{seckillId}
+              AND start_time <![CDATA[<=]]> #{killTime}
+              AND seckills.end_time >= #{killTime}
+              AND seckills.remain > 0;
+    </update>
 
     <!--   Seckill queryById(long seckillId);-->
     <select id="queryById" resultType="Seckill" parameterType="long">
-        SELECT seckill_id,name,number,start_time,end_time,create_time
-        FROM seckill
-        WHERE seckill_id = #{seckillId}
+        SELECT *
+        FROM seckills
+        WHERE id = #{seckillId}
     </select>
 
     <!-- List<Seckill> queryAll(int offset,int limit);-->
     <select id="queryAll" resultType="Seckill">
-        SELECT seckill_id,name,number,start_time,end_time,create_time
-        FROM seckill
+        SELECT *
+        FROM seckills
+        WHERE examine = TRUE AND seckills.publish =TRUE
         ORDER BY create_time DESC
-        limit #{offset},#{limit}
+        LIMIT #{limit}
+        OFFSET #{offset}
     </select>
 
     <!-- mybatis调用存储过程 -->
-    <select id="killByProcedure" statementType="CALLABLE">
+    <!--<select id="killByProcedure" statementType="CALLABLE">-->
+    <select id="killByProcedure" statementType="CALLABLE" parameterType="map">
+        {
         call execute_seckill(
-        #{seckillId,jdbcType=BIGINT,mode=IN},
-        #{phone,jdbcType=BIGINT,mode=IN},
-        #{killTime,jdbcType=TIMESTAMP,mode=IN},
-        #{result,jdbcType=INTEGER,mode=OUT}
+                #{seckillId},
+                #{userId},
+                #{seckillAt},
+                #{verificationCode},
+                #{result,jdbcType=INTEGER,mode=OUT}
         )
+        }
+
     </select>
 
 </mapper>

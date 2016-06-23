@@ -32,31 +32,34 @@ var seckill = {
             //手机验证和登录,计时交互
             //规划我们的交互流程
             //在cookie中查找手机号
-            var userPhone = $.cookie('userPhone');
-            //验证手机号
-            if (!seckill.validatePhone(userPhone)) {
-                //绑定手机 控制输出
-                var killPhoneModal = $('#killPhoneModal');
-                killPhoneModal.modal({
-                    show: true,//显示弹出层
-                    backdrop: 'static',//禁止位置关闭
-                    keyboard: false//关闭键盘事件
-                });
+            //var userPhone = $.cookie('userPhone');
 
-                $('#killPhoneBtn').click(function () {
-                    var inputPhone = $('#killPhoneKey').val();
-                    console.log("inputPhone: " + inputPhone);
-                    if (seckill.validatePhone(inputPhone)) {
-                        //电话写入cookie(7天过期)
-                        $.cookie('userPhone', inputPhone, {expires: 7, path: '/seckill'});
-                        //验证通过　　刷新页面
-                        window.location.reload();
-                    } else {
-                        //todo 错误文案信息抽取到前端字典里
-                        $('#killPhoneMessage').hide().html('<label class="label label-danger">手机号错误!</label>').show(300);
-                    }
-                });
-            }
+
+
+            ////验证手机号
+            //if (!seckill.validatePhone(userPhone)) {
+            //    //绑定手机 控制输出
+            //    var killPhoneModal = $('#killPhoneModal');
+            //    killPhoneModal.modal({
+            //        show: true,//显示弹出层
+            //        backdrop: 'static',//禁止位置关闭
+            //        keyboard: false//关闭键盘事件
+            //    });
+            //
+            //    $('#killPhoneBtn').click(function () {
+            //        var inputPhone = $('#killPhoneKey').val();
+            //        console.log("inputPhone: " + inputPhone);
+            //        if (seckill.validatePhone(inputPhone)) {
+            //            //电话写入cookie(7天过期)
+            //            $.cookie('userPhone', inputPhone, {expires: 7, path: '/seckill'});
+            //            //验证通过　　刷新页面
+            //            window.location.reload();
+            //        } else {
+            //            //todo 错误文案信息抽取到前端字典里
+            //            $('#killPhoneMessage').hide().html('<label class="label label-danger">手机号错误!</label>').show(300);
+            //        }
+            //    });
+            //}
 
             //已经登录
             //计时交互
@@ -64,25 +67,26 @@ var seckill = {
             var endTime = params['endTime'];
             var seckillId = params['seckillId'];
             $.get(seckill.URL.now(), {}, function (result) {
-                if (result && result['success']) {
+                if (result && result['code']==0) {
                     var nowTime = result['data'];
                     //时间判断 计时交互
                     seckill.countDown(seckillId, nowTime, startTime, endTime);
                 } else {
                     console.log('result: ' + result);
-                    alert('result: ' + result);
+                    alert('result: ' + result['msg']);
                 }
             });
         }
     },
 
+    //执行秒杀
     handlerSeckill: function (seckillId, node) {
         //获取秒杀地址,控制显示器,执行秒杀
         node.hide().html('<button class="btn btn-primary btn-lg" id="killBtn">开始秒杀</button>');
 
         $.get(seckill.URL.exposer(seckillId), {}, function (result) {
             //在回调函数种执行交互流程
-            if (result && result['success']) {
+            if (result && result['code']==0) {
                 var exposer = result['data'];
                 if (exposer['exposed']) {
                     //开启秒杀
@@ -96,15 +100,40 @@ var seckill = {
                         //1.先禁用按钮
                         $(this).addClass('disabled');//,<-$(this)===('#killBtn')->
                         //2.发送秒杀请求执行秒杀
-                        $.post(killUrl, {}, function (result) {
-                            if (result && result['success']) {
-                                var killResult = result['data'];
-                                var state = killResult['state'];
-                                var stateInfo = killResult['stateInfo'];
-                                //显示秒杀结果
-                                node.html('<span class="label label-success">' + stateInfo + '</span>');
+
+
+                        $.ajax({
+                            method:"POST",
+                            url:killUrl,
+                            //todo 测试header
+                            headers:{
+                                Authorization:'Bearer{eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjcxMywiaXNzIjoiaHR0cDpcL1wvYXBpLmlmZW5nZ3VvLmNvbTo4MVwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTQ2NjEzNzUyNiwiZXhwIjoxNDczOTEzNTI2LCJuYmYiOjE0NjYxMzc1MjYsImp0aSI6ImEyZDhiMzkxODY4MjU2NzQ5YWY5Yzk5NmQwNDYxYmIxIn0.wfvVmWE9zaEQw-23aM7oQiXiPWwzDubMcG5rsB2ns-4}'
+                            },
+                            success:function(result){
+                                if (result && result['code']==0) {
+                                    var killResult = result['data'];
+                                    var state = killResult['state'];
+                                    var stateInfo = killResult['stateInfo'];
+                                    //显示秒杀结果
+                                    node.html('<span class="label label-success">' + stateInfo + '</span>');
+                                }else{
+                                    alert('result: ' + result['msg']);
+                                }
                             }
-                        });
+                        })
+                        ;
+
+                        //$.post(killUrl, {}, function (result) {
+                        //    if (result && result['code']==0) {
+                        //        var killResult = result['data'];
+                        //        var state = killResult['state'];
+                        //        var stateInfo = killResult['stateInfo'];
+                        //        //显示秒杀结果
+                        //        node.html('<span class="label label-success">' + stateInfo + '</span>');
+                        //    }else{
+                        //        alert('result: ' + result['msg']);
+                        //    }
+                        //});
                     });
                     node.show();
                 } else {
@@ -115,12 +144,14 @@ var seckill = {
                     seckill.countDown(seckillId, now, start, end);
                 }
             } else {
-                console.log('result: ' + result);
+                alert('result: ' + result['msg']);
+                console.log('result: ' + result['msg']);
             }
         });
 
     },
 
+    //倒计时逻辑处理
     countDown: function (seckillId, nowTime, startTime, endTime) {
         console.log(seckillId + '_' + nowTime + '_' + startTime + '_' + endTime);
         var seckillBox = $('#seckill-box');

@@ -1,19 +1,15 @@
 package org.seckill.entity;
 
-import org.seckill.dao.redis.RedisDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
 import java.util.Date;
 
 /**
- * 秒杀商品的model
- * Created by never615 on 6/15/16.
+ * 团购商品model
+ * Created by never615 on 6/22/16.
  */
-public class Seckill {
+public class GroupBuying {
 
     /**
-     * 秒杀商品id
+     * 团购商品id
      */
     private long id;
     /**
@@ -21,7 +17,7 @@ public class Seckill {
      */
     private long merchatId;
     /**
-     * 秒杀商品的名字
+     * 团购商品的名字
      */
     private String name;
     /**
@@ -33,9 +29,13 @@ public class Seckill {
      */
     private String describe;
     /**
-     * 秒杀所需要的积分
+     * 团购所需要的积分
      */
     private long integral;
+    /**
+     * 团购原本所需要的积分
+     */
+    private long originalIntegral;
     /**
      * 是否审核通过
      */
@@ -49,6 +49,10 @@ public class Seckill {
      */
     private String images;
     /**
+     * 每个人限制团购的数量
+     */
+    private int limit;
+    /**
      * 商品的总数量
      */
     private long total;
@@ -57,11 +61,11 @@ public class Seckill {
      */
     private long remain;
     /**
-     * 秒杀开始时间
+     * 团购开始时间
      */
     private Date startTime;
     /**
-     * 秒杀结束时间
+     * 团购结束时间
      */
     private Date endTime;
     /**
@@ -117,7 +121,21 @@ public class Seckill {
         this.integral = integral;
     }
 
+    public long getOriginalIntegral() {
+        return originalIntegral;
+    }
 
+    public void setOriginalIntegral(long originalIntegral) {
+        this.originalIntegral = originalIntegral;
+    }
+
+    public boolean isExamine() {
+        return examine;
+    }
+
+    public void setExamine(boolean examine) {
+        this.examine = examine;
+    }
 
     public boolean isPublish() {
         return publish;
@@ -133,6 +151,14 @@ public class Seckill {
 
     public void setImages(String images) {
         this.images = images;
+    }
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 
     public long getTotal() {
@@ -175,26 +201,20 @@ public class Seckill {
         this.createTime = createTime;
     }
 
-    public boolean isExamine() {
-        return examine;
-    }
-
-    public void setExamine(boolean examine) {
-        this.examine = examine;
-    }
-
     @Override
     public String toString() {
-        return "Seckill{" +
+        return "GroupBuying{" +
                 "id=" + id +
                 ", merchatId=" + merchatId +
                 ", name='" + name + '\'' +
                 ", logo='" + logo + '\'' +
                 ", describe='" + describe + '\'' +
                 ", integral=" + integral +
+                ", originalIntegral=" + originalIntegral +
                 ", examine=" + examine +
                 ", publish=" + publish +
                 ", images='" + images + '\'' +
+                ", limit=" + limit +
                 ", total=" + total +
                 ", remain=" + remain +
                 ", startTime=" + startTime +
@@ -202,6 +222,4 @@ public class Seckill {
                 ", createTime=" + createTime +
                 '}';
     }
-
-
 }

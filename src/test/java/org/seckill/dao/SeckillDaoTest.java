@@ -1,21 +1,50 @@
 package org.seckill.dao;
 
-import com.alibaba.druid.pool.DruidDataSource;
+import org.apache.commons.collections.MapUtils;
 import org.junit.Test;
-import org.seckill.BaseTest;
+import org.junit.runner.RunWith;
 import org.seckill.entity.Seckill;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class SeckillDaoTest extends BaseTest {
-
+/**
+ * 配置Spring和Junit整合,junit启动时加载springIOC容器
+ * spring-test,junit
+ * Created by never615 on 6/16/16.
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(
+        locations = {
+                "classpath:spring/spring-dao.xml",
+                "classpath:spring/spring-service.xml"
+        }
+)
+public class SeckillDaoTest {
     //注入Dao实现类依赖
     @Resource
     private SeckillDao seckillDao;
 
+    @Resource
+    private TransactionTemplate txTemplate;
+
+
+    /**
+     * 测试查询单个秒杀商品条目
+     *
+     * @throws Exception
+     */
     @Test
     public void testQueryById() throws Exception {
         long id = 1000;
@@ -24,9 +53,16 @@ public class SeckillDaoTest extends BaseTest {
     }
 
 
+    /**
+     * 测试查询全部秒杀商品
+     *
+     * @throws Exception
+     */
     @Test
-    public void testReduceNumber() throws Exception {
-//      Java没有保存形参的记录:QueryAll(int offset,int limit)->QueryAll(arg0,arg1);
+    public void testQueryAll() throws Exception {
+        System.out.println("-----------------------------------");
+
+//        Java没有保存形参的记录:QueryAll(int offset,int limit)->QueryAll(arg0,arg1);
 //      因为java形参的问题,多个基本类型参数的时候需要用@Param("seckillId")注解区分开来
         List<Seckill> seckills = seckillDao.queryAll(0, 100);
         for (Seckill seckill : seckills) {
@@ -34,66 +70,76 @@ public class SeckillDaoTest extends BaseTest {
         }
     }
 
+//    /**
+//     * 测试减少秒杀商品数量
+//     *
+//     * @throws Exception
+//     */
+//    @TestToekn
+//    public void testReduceNumber() throws Exception {
+//        Date killTime = new Date();
+//        int updateCount = seckillDao.reduceNumber(1001L, killTime);
+//        System.out.println("updateCount:  " + updateCount);
+//    }
 
+
+    /**
+     * 测试存储过程
+     * 秒杀:插入秒杀记录,更新秒杀商品数量
+     */
     @Test
-    public void testQueryAll() throws Exception {
+    public void killByProcedure() {
+        System.out.println("-----------------------------------");
+
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+
+
+        PlatformTransactionManager transactionManager = txTemplate.getTransactionManager();
+
+        TransactionStatus status = transactionManager.getTransaction(def);
+
+
+
+        //生成核销码
+//        String verificationCode=
+
         Date killTime = new Date();
-        int updateCount = seckillDao.reduceNumber(1000L, killTime);
-        System.out.println("updateCount:  " + updateCount);
-    }
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("seckillId", 1001);
+//        map.put("userId", 674);
+        map.put("userId", 713);
+        map.put("seckillAt", killTime);
+        map.put("verificationCode","987897896597687");
+        map.put("result", -201);
 
 
-    @Test
-    public void testGetConnection() {
 
-        String url = "jdbc:mysql://10.112.1.110:3306/test_mysql";
-        String driver = "com.mysql.jdbc.Driver";
-        String user = "root";
-        String passwd = "111111";
 
         try {
-            Class.forName(driver);
+            seckillDao.killByProcedure(map);
+
+        } catch (DuplicateKeyException e) {
+            System.out.println("重复秒杀异常:" + e);
+            transactionManager.rollback(status);
+            return;
         } catch (Exception e) {
-            System.out.println("Get Connection failed!!!");
+            System.out.println("sql异常:" + e);
+            transactionManager.rollback(status);
+            return;
         }
 
-        try {
-            Connection con = DriverManager.getConnection(url, user, passwd);
 
-            System.out.println("Get Connection Success!!!");
+        int result = MapUtils.getInteger(map, "result", -200);
 
-            Properties properties = con.getClientInfo();
-            Iterator<Map.Entry<Object, Object>> it = properties.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry<Object, Object> entry = it.next();
-                System.out.println(entry.getKey() + "---------------" + entry.getValue());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (result != 0) {
+            transactionManager.rollback(status);
+        } else {
+            transactionManager.commit(status);
         }
-    }
 
 
-    @Test
-    public void testComboPooledDataSource() throws Exception {
-        String url = "jdbc:mysql://localhost:3306/seckill";
-        String driver = "com.mysql.jdbc.Driver";
-        String user = "root";
-        String passwd = "nishengri";
-
-        DruidDataSource druidDataSource = new DruidDataSource();
-
-        druidDataSource.setUrl(url);
-        druidDataSource.setUsername(user);
-        druidDataSource.setPassword(passwd);
-
-        druidDataSource.setDriverClassName(driver);
-
-
-        Connection con = druidDataSource.getConnection();
-
-        System.out.println("Get Connection Success!!!   " + con);
-
+        System.out.println("秒杀结果:" + result);
     }
 }
-

@@ -11,10 +11,8 @@ import redis.clients.jedis.JedisPool;
 
 
 /**
- * Created with IntelliJ IDEA.
- * Description:redis dao
- * User: ray.wang bookast@qq.com
- * Date: 16/6/5 下午9:13
+ * 用来缓存秒杀对象,减少对数据库的请求,redis效率更高
+ * Created by never615 on 6/16/16.
  */
 public class RedisDao {
 
@@ -55,7 +53,7 @@ public class RedisDao {
         try{
                 Jedis jedis = jedisPool.getResource();
             try{
-                String key = SECKILL_KEY_PREFIX+seckill.getSeckillId();
+                String key = SECKILL_KEY_PREFIX+seckill.getId();
 
                 byte[] bytes = ProtobufIOUtil.toByteArray(seckill,schema, LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE));
 

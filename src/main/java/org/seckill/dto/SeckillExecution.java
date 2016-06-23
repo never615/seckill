@@ -5,6 +5,7 @@ import org.seckill.enums.SeckillStateEnum;
 
 /**
  * 封装秒杀执行后的结果
+ * Created by never615 on 6/16/16.
  */
 public class SeckillExecution {
 

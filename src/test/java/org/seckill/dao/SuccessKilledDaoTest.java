@@ -2,40 +2,51 @@ package org.seckill.dao;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seckill.BaseTest;
 import org.seckill.entity.SuccessKilled;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 
-import static org.junit.Assert.*;
+import java.util.Date;
 
-/**
- * Created by wchb7 on 16-5-9.
- */
 
-public class SuccessKilledDaoTest extends BaseTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(
+        locations = {
+                "classpath:spring/spring-dao.xml"
+        }
+)
+public class SuccessKilledDaoTest {
 
     @Resource
     private SuccessKilledDao successKilledDao;
 
-    @Test
-    public void testInsertSuccessKilled() throws Exception {
-        long id = 1000L;
-        long phone = 15811112222L;
-        int insertCount = successKilledDao.insertSuccessKilled(id, phone);
-        System.out.println("insertCount: " + insertCount);
-    }
+//    /**
+//     * 测试插入秒杀明细表
+//     * @throws Exception
+//     */
+//    @TestToekn
+//    public void testInsertSuccessKilled() throws Exception {
+//        long id = 1000L;
+//        long userId=674;
+//        Date date=new Date();
+//        int insertCount = successKilledDao.insertSuccessKilled(id, userId,date);
+//        System.out.println("insertCount: " + insertCount);
+//    }
 
+    /**
+     * 测试查询秒杀明细
+     * @throws Exception
+     */
     @Test
     public void testQueryByIdWithSeckill() throws Exception {
 
-        long id = 1000L;
-        long phone = 15811112222L;
-        SuccessKilled successKilled = successKilledDao.queryByIdWithSeckill(id, phone);
+        long id = 1002L;
+        long userId=674;
+        SuccessKilled successKilled = successKilledDao.queryByIdWithSeckill(id, userId);
         System.out.println(successKilled);
-        System.out.println(successKilled.getSeckill());
+//        System.out.println(successKilled.getSeckill());
 
     }
 }

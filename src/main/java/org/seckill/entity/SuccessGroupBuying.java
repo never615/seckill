@@ -3,19 +3,19 @@ package org.seckill.entity;
 import java.util.Date;
 
 /**
- * 成功秒杀记录表
- * Created by never615 on 6/15/16.
+ * 成功团购明细model
+ * Created by never615 on 6/22/16.
  */
-public class SuccessKilled {
+public class SuccessGroupBuying {
 
+    private long id;
+
+    private GroupBuying groupBuying;
     /**
-     * 一个秒杀seckill对应多个成功记录
+     * 秒杀商品id
      */
-    private Seckill seckill;
-    /**
-     * 商品库存ID
-     */
-    private long seckillId;
+    private long groupBuyingId;
+
     /**
      * 用户id
      */
@@ -24,6 +24,14 @@ public class SuccessKilled {
      * 状态标识:-1:无效 0:成功
      */
     private short state;
+    /**
+     * 秒杀时间
+     */
+    private Date groupBuyingAt;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
     /**
      * 核销码
@@ -33,29 +41,29 @@ public class SuccessKilled {
      * 核销时间
      */
     private Date exchangeTime;
-    /**
-     * 秒杀时间
-     */
-    private Date seckillAt;
-    /**
-     * 创建时间
-     */
-    private Date createTime;
 
-    public Seckill getSeckill() {
-        return seckill;
+    public long getId() {
+        return id;
     }
 
-    public void setSeckill(Seckill seckill) {
-        this.seckill = seckill;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public long getSeckillId() {
-        return seckillId;
+    public GroupBuying getGroupBuying() {
+        return groupBuying;
     }
 
-    public void setSeckillId(long seckillId) {
-        this.seckillId = seckillId;
+    public void setGroupBuying(GroupBuying groupBuying) {
+        this.groupBuying = groupBuying;
+    }
+
+    public long getGroupBuyingId() {
+        return groupBuyingId;
+    }
+
+    public void setGroupBuyingId(long groupBuyingId) {
+        this.groupBuyingId = groupBuyingId;
     }
 
     public long getUserId() {
@@ -74,12 +82,12 @@ public class SuccessKilled {
         this.state = state;
     }
 
-    public Date getSeckillAt() {
-        return seckillAt;
+    public Date getGroupBuyingAt() {
+        return groupBuyingAt;
     }
 
-    public void setSeckillAt(Date seckillAt) {
-        this.seckillAt = seckillAt;
+    public void setGroupBuyingAt(Date groupBuyingAt) {
+        this.groupBuyingAt = groupBuyingAt;
     }
 
     public Date getCreateTime() {
@@ -108,15 +116,16 @@ public class SuccessKilled {
 
     @Override
     public String toString() {
-        return "SuccessKilled{" +
-                "seckill=" + seckill +
-                ", seckillId=" + seckillId +
+        return "SuccessGroupBuying{" +
+                "id=" + id +
+                ", groupBuying=" + groupBuying +
+                ", groupBuyingId=" + groupBuyingId +
                 ", userId=" + userId +
                 ", state=" + state +
+                ", groupBuyingAt=" + groupBuyingAt +
+                ", createTime=" + createTime +
                 ", verificationCode='" + verificationCode + '\'' +
                 ", exchangeTime=" + exchangeTime +
-                ", seckillAt=" + seckillAt +
-                ", createTime=" + createTime +
                 '}';
     }
 }

@@ -1,21 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.seckill.dao.SuccessKilledDao">
 
-    <!--通过ignore关键字将主键冲突时的报错改为返回0-->
+
     <!--int insertSuccessKilled(long seckilledId,long userPhone);-->
-    <update id="insertSuccessKilled">
-       INSERT ignore INTO success_killed(seckill_id,user_phone,state)VALUES (#{seckilledId},#{userPhone},1)
-    </update>
+    <insert id="insertSuccessKilled">
+        INSERT INTO success_seckilleds (seckill_id, user_id, seckill_at, state)
+        VALUES (#{seckilledId}, #{userId}, #{seckillAt}, 0)
+    </insert>
 
     <!-- SuccessKilled queryByIdWithSeckill(@Param("seckilledId") long seckilledId, @Param("userPhone") long userPhone);-->
     <select id="queryByIdWithSeckill" resultType="SuccessKilled">
-      SELECT
-      sk.seckill_id,sk.user_phone,sk.create_time,sk.state,
-      s.seckill_id "seckill.seckill_id",s.name "seckill.name", s.start_time "seckill.start_time",s.end_time "seckill.end_time",
-      s.create_time "seckill.create_time"
-      FROM success_killed sk INNER JOIN seckill s ON sk.seckill_id=s.seckill_id
-      WHERE sk.seckill_id=#{seckilledId} and sk.user_phone=#{userPhone};
+        SELECT
+            sk.seckill_id,
+            sk.user_id,
+            sk.verification_code,
+            sk.exchange_time,
+            sk.state,
+            sk.seckill_at,
+            sk.create_time,
+            s.id          "seckill.id",
+            s.merchat_id  "seckill.merchat_id",
+            s.name        "seckill.name",
+            s.logo        "seckill.logo",
+            s.describe    "seckill.describe",
+            s.integral    "seckill.integral",
+            s.examine     "seckill.examine",
+            s.publish     "seckill.publish",
+            s.images      "seckill.images",
+            s.total       "seckill.total",
+            s.remain      "seckill.remain",
+            s.start_time  "seckill.start_time",
+            s.end_time    "seckill.end_time",
+            s.create_time "seckill.create_time"
+        FROM success_seckilleds AS sk INNER JOIN seckills AS s ON sk.seckill_id = s.id
+        WHERE sk.seckill_id = #{seckilledId} AND sk.user_id = #{userId};
+    </select>
+
+    <!--更新核销码-->
+    <select id="updateVerificationCode">
+        UPDATE success_seckilleds
+        SET verification_code = #{verificationCode}
+        WHERE seckill_id = #{seckillId}
     </select>
 
 </mapper>
+        <!--<select id="queryByIdWithSeckill" resultType="SuccessKilled">-->
+        <!--SELECT-->
+        <!--sk.seckill_id,sk.user_phone,sk.create_time,sk.state,-->
+        <!--s.seckill_id "seckill.seckill_id",s.name "seckill.name", s.start_time "seckill.start_time",s.end_time "seckill.end_time",-->
+        <!--s.create_time "seckill.create_time"-->
+        <!--FROM success_killed sk INNER JOIN seckill s ON sk.seckill_id=s.seckill_id-->
+        <!--WHERE sk.seckill_id=#{seckilledId} and sk.user_phone=#{userPhone};-->
+        <!--</select>-->

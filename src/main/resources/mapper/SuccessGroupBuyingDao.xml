@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.seckill.dao.SuccessGroupBuyingDao">
+
+    <!--插入购买明细-->
+    <insert id="insertSuccessGroupBuying">
+        INSERT INTO success_group_buyings (group_buying_id, user_id, group_buying_at, state)
+        VALUES (#{groupBuyingId}, #{userId}, #{groupBuyingAt}, 0)
+        RETURNING id;
+    </insert>
+
+    <!--生成核销码-->
+    <update id="updateVerificationCode">
+        UPDATE success_group_buyings
+        SET verification_code = #{verificationCode}
+        WHERE id = #{id}
+    </update>
+
+    <!--根据明细id查询记录-->
+    <select id="queryByIdWithGroupBuying" resultType="SuccessGroupBuying">
+        SELECT
+            sg.id,
+            sg.user_id,
+            sg.group_buying_id,
+            sg.state,
+            sg.group_buying_at,
+            sg.verification_code,
+            sg.exchange_time,
+            sg.create_time,
+            gb.id          "groupBuying.id",
+            gb.merchat_id  "groupBuying.merchat_id",
+            gb.name        "groupBuying.name",
+            gb.logo        "groupBuying.logo",
+            gb.describe    "groupBuying.describe",
+            gb.integral    "groupBuying.integral",
+            gb.examine     "groupBuying.examine",
+            gb.publish     "groupBuying.publish",
+            gb.images      "groupBuying.images",
+            gb."limit"     "groupBuying.limit",
+            gb.total       "groupBuying.total",
+            gb.remain      "groupBuying.remain",
+            gb.start_time  "groupBuying.start_time",
+            gb.end_time    "groupBuying.end_time",
+            gb.create_time "groupBuying.create_time"
+        FROM success_group_buyings AS sg INNER JOIN group_buyings AS gb ON sg.group_buying_id = gb.id
+        WHERE sg.id = #{id};
+    </select>
+
+    <!--根据用户id和商品id查询明细条数-->
+    <select id="queryByUserIdAndGroupBuyingId" resultType="long">
+        SELECT COUNT(*)
+        FROM success_group_buyings
+        WHERE user_id = #{userId} AND group_buying_id = #{groupBuyingId}
+    </select>
+
+    <!--根据用户id查询购买明细-->
+    <select id="queryByUserIdWithGroupBuying" resultType="SuccessGroupBuying">
+        SELECT
+            sg.id,
+            sg.user_id,
+            sg.group_buying_id,
+            sg.state,
+            sg.group_buying_at,
+            sg.verification_code,
+            sg.exchange_time,
+            sg.create_time,
+            gb.id          "groupBuying.id",
+            gb.merchat_id  "groupBuying.merchat_id",
+            gb.name        "groupBuying.name",
+            gb.logo        "groupBuying.logo",
+            gb.describe    "groupBuying.describe",
+            gb.integral    "groupBuying.integral",
+            gb.examine     "groupBuying.examine",
+            gb.publish     "groupBuying.publish",
+            gb.images      "groupBuying.images",
+            gb.total       "groupBuying.total",
+            gb.remain      "groupBuying.remain",
+            gb.start_time  "groupBuying.start_time",
+            gb.end_time    "groupBuying.end_time",
+            gb.create_time "groupBuying.create_time"
+        FROM success_group_buyings AS sg INNER JOIN group_buyings AS gb ON sg.group_buying_id = gb.id
+        WHERE sg.user_id = #{userId};
+    </select>
+</mapper>
+

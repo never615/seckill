@@ -1,8 +1,8 @@
 package org.seckill.exception;
 
 /**
- * 秒杀相关业务异常
- * Created by wchb7 on 16-5-14.
+ * 秒杀相关的业务异常
+ * Created by never615 on 6/16/16.
  */
 public class SeckillException extends RuntimeException {
 

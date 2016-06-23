@@ -1,7 +1,10 @@
 package org.seckill.dto;
 
 /**
- * 暴露秒杀地址DTO
+ * 暴露秒杀地址的dto对象
+ * <p>
+ * 秒杀开启时输出秒杀接口地址, 否则输出系统时间和秒杀时间
+ * Created by never615 on 6/16/16.
  */
 public class Exposer {
 

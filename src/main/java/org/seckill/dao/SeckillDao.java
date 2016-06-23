@@ -8,18 +8,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by wchb7 on 16-5-8.
+ * 操作秒杀表
+ * Created by never615 on 6/15/16.
  */
 public interface SeckillDao {
 
-    /**
-     * 减库存
-     *
-     * @param seckillId
-     * @param killTime
-     * @return　如果更新行数大于1,表示更新的行数
-     */
-    int reduceNumber(@Param("seckillId") long seckillId, @Param("killTime") Date killTime);
+//    /**
+//     * 减库存
+//     *
+//     * @param seckillId
+//     * @param killTime
+//     * @return　如果更新行数大于1,表示更新的行数
+//     */
+//    int reduceNumber(@Param("seckillId") long seckillId, @Param("killTime") Date killTime);
 
 
     /**
@@ -38,13 +39,11 @@ public interface SeckillDao {
      * @param limit
      * @return
      */
-    List<Seckill> queryAll(@Param("offset") int offset, @Param("limit") int limit);
+    List<Seckill> queryAll(@Param("offset") long offset, @Param("limit") long limit);
 
     /**
-     * 使用存储过程执行秒杀
-     *
+     * 使用存储过程执行秒杀,效率更高
      * @param paramMap
      */
     void killByProcedure(Map<String, Object> paramMap);
-
 }

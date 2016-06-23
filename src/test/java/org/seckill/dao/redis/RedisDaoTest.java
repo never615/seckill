@@ -1,17 +1,24 @@
 package org.seckill.dao.redis;
 
-import junit.framework.TestCase;
 import org.junit.Test;
-import org.seckill.BaseTest;
+import org.junit.runner.RunWith;
 import org.seckill.dao.SeckillDao;
 import org.seckill.entity.Seckill;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 
-public class RedisDaoTest extends BaseTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(
+        locations = {
+                "classpath:spring/spring-dao.xml",
+                "classpath:spring/spring-service.xml"
+        }
+)
+public class RedisDaoTest {
 
-    @Autowired
+    @Resource
     private RedisDao redisDao;
 
     @Resource
@@ -19,12 +26,13 @@ public class RedisDaoTest extends BaseTest {
 
     @Test
     public void testSeckill() throws Exception {
+        System.out.println("--------------------");
         long seckillId = 1000L;
         Seckill seckill = null;
         seckill = redisDao.getSeckill(seckillId);
-        if(seckill == null ){
+        if (seckill == null) {
             seckill = seckillDao.queryById(seckillId);
-            if(seckill != null){
+            if (seckill != null) {
                 String result = redisDao.putSeckill(seckill);
                 System.out.println(result);
             }
@@ -32,5 +40,4 @@ public class RedisDaoTest extends BaseTest {
             System.out.println(seckill);
         }
     }
-
 }
