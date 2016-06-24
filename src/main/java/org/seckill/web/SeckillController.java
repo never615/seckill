@@ -47,7 +47,7 @@ public class SeckillController {
         long offset = (page - 1) * 20;
         long limit = 20;
         model.addAttribute("list", seckillService.getSeckillList(offset, limit));
-        return "list";
+        return "seckill/list";
     }
 
     /**
@@ -67,7 +67,7 @@ public class SeckillController {
             return "forward:/seckill/list";
         }
         model.addAttribute("seckill", seckill);
-        return "detail";
+        return "seckill/detail";
     }
 
 

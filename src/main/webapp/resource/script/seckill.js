@@ -169,11 +169,11 @@ var seckill = {
                 //时间完成后回调事件
                 //获取秒杀地址,控制现实逻辑,执行秒杀
                 console.log('______fininsh.countdown');
-                seckill.handlerSeckill(seckillId, seckillBox);
+                seckill.handlerGroupbuying(seckillId, seckillBox);
             });
         } else {
             //秒杀开始
-            seckill.handlerSeckill(seckillId, seckillBox);
+            seckill.handlerGroupbuying(seckillId, seckillBox);
         }
     }
 

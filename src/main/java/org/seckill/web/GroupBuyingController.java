@@ -52,7 +52,7 @@ public class GroupBuyingController {
         long offset = (page - 1) * 20;
         long limit = 20;
         model.addAttribute("list", groupBuyingService.getGroupBuyingList(offset, limit));
-        return "list";
+        return "groupbuying/list";
     }
 
     /**
@@ -72,7 +72,7 @@ public class GroupBuyingController {
             return "forward:/groupbuying/list";
         }
         model.addAttribute("groupbuying", groupBuying);
-        return "detail";
+        return "groupbuying/detail";
     }
 
 
@@ -82,7 +82,7 @@ public class GroupBuyingController {
      * @param groupbuyingId 团购商品ID
      * @return
      */
-    @RequestMapping(value = "{groupbuyingId}/{md5}/execution", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "{groupbuyingId}/execution", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public ApiResult<GroupBuyingExecution> execute(@PathVariable("groupbuyingId") Long groupbuyingId,
                                                    @RequestHeader("Authorization") String authorization
@@ -104,13 +104,13 @@ public class GroupBuyingController {
                     GroupBuyingExecution groupBuyingExecution = groupBuyingService.executeGroupBuying(groupbuyingId, userId);
                     return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, groupBuyingExecution);
                 } catch (GroupBuyingCloseException e) {
-                    return new ApiResult<GroupBuyingExecution>(GroupBuyingStateEnum.END.getState(), GroupBuyingStateEnum.END.getStateInfo());
+                    return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.END));
                 } catch (OutOfGroupBuyingLimitException e) {
-                    return new ApiResult<GroupBuyingExecution>(GroupBuyingStateEnum.OUT_LIMIT.getState(), GroupBuyingStateEnum.OUT_LIMIT.getStateInfo());
+                    return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.OUT_LIMIT));
                 } catch (GroupBuyingException e) {
-                    return new ApiResult<GroupBuyingExecution>(GroupBuyingStateEnum.INNER_ERROR.getState(), GroupBuyingStateEnum.INNER_ERROR.getStateInfo(), e.getMessage());
+                    return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.INNER_ERROR));
                 } catch (UserIntegralNotEnoughException e) {
-                    return new ApiResult<GroupBuyingExecution>(GroupBuyingStateEnum.FAIL_REDUCE_INTEGRAL.getState(), GroupBuyingStateEnum.FAIL_REDUCE_INTEGRAL.getStateInfo());
+                    return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.FAIL_REDUCE_INTEGRAL));
                 }
             } else {
                 //用户不存在
