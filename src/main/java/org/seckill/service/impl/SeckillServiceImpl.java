@@ -10,6 +10,7 @@ import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.enums.SeckillStateEnum;
 import org.seckill.service.SeckillService;
+import org.seckill.utils.AppUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,8 +94,8 @@ public class SeckillServiceImpl implements SeckillService {
 
 
         //生成核销码
-        String verificationCode=""+userId+seckillId;
-        verificationCode="2"+String.format("%015d",Integer.valueOf(verificationCode));//核销码构成:type(2)+补足零+userid+seckillId  ;一共16位
+        String verificationCode= AppUtils.createVerificationCode("3",userId,seckillId);
+
 
         Date killTime = new Date();
         Map<String, Object> map = new HashMap<String, Object>();

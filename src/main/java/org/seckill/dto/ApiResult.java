@@ -1,7 +1,9 @@
 package org.seckill.dto;
 
+import org.seckill.enums.GroupBuyingStateEnum;
 import org.seckill.enums.RequestStateEnum;
 import org.seckill.enums.SeckillStateEnum;
+import org.seckill.exception.GroupBuyingException;
 
 /**
  * 封装所有api的请求结果
@@ -43,6 +45,12 @@ public class ApiResult<T> {
 
     //    private boolean success;
     private T data;
+
+    public ApiResult(int state, String stateInfo, String errorMsg) {
+        this.code=state;
+        this.msg=stateInfo+":"+errorMsg;
+    }
+
 
     public int getCode() {
         return code;

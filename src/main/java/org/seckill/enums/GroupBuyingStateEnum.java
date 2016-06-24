@@ -4,7 +4,7 @@ package org.seckill.enums;
  * 团购相关的状态码及信息
  * Created by never615 on 6/23/16.
  */
-public enum GroupBuyingStateEnum {
+public enum GroupBuyingStateEnum  {
     SUCCESS(0, "团购成功"),
     END(7001, "团购结束"),  //不在团购时间/库存不足/没有审核通过/没有发布
     OUT_LIMIT(7002, "超出本商品的团购次数"),

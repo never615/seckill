@@ -12,6 +12,7 @@ import org.seckill.exception.GroupBuyingException;
 import org.seckill.exception.OutOfGroupBuyingLimitException;
 import org.seckill.exception.UserIntegralNotEnoughException;
 import org.seckill.service.GroupBuyingService;
+import org.seckill.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,11 +60,14 @@ public class GroupBuyingServiceImpl implements GroupBuyingService {
 
         //2.检查团购数量限制,插入明细
         //2.1 查询当前用户已经购买了多少次
-        int recordNum = successGroupBuyingDao.queryByUserIdAndGroupBuyingId(userId, groupBuyingId);
+        long recordNum = successGroupBuyingDao.queryByUserIdAndGroupBuyingId(userId, groupBuyingId);
 
         //2.2 查询商品的每个人限制购买数量
         GroupBuying groupBuying = groupBuyingDao.queryById(groupBuyingId);
-        if (groupBuying.getLimit() > recordNum) {
+
+        int limit = groupBuying.getLimit();
+
+        if (limit==0 ||limit>recordNum) {
             //还可以购买
             //插入购买明细
             long successGroupBuyingId = successGroupBuyingDao.insertSuccessGroupBuying(groupBuyingId, userId, nowTime);
@@ -77,14 +81,23 @@ public class GroupBuyingServiceImpl implements GroupBuyingService {
                     //减少用户积分失败
                     throw new UserIntegralNotEnoughException("用户积分不足");
                 } else {
-                    SuccessGroupBuying successGroupBuying = successGroupBuyingDao.queryByIdWithGroupBuying(successGroupBuyingId);
                     //团购成功
+
+                    SuccessGroupBuying successGroupBuying = successGroupBuyingDao.queryByIdWithGroupBuying(successGroupBuyingId);
+
+                    // FIXME: 6/23/16 type写到枚举
+                    //生成核销码
+                    String verificationCode= AppUtils.createVerificationCode("3",userId,successGroupBuyingId);
+                    count = successGroupBuyingDao.updateVerificationCode(successGroupBuyingId, verificationCode);
+                    if (count <= 0) {
+                        throw new GroupBuyingException("团购失败");
+                    }
                     return new GroupBuyingExecution(GroupBuyingStateEnum.SUCCESS, successGroupBuying);
                 }
             }
         } else {
             //超出购买限制
-            throw new OutOfGroupBuyingLimitException("查出本商品的团购次数");
+            throw new OutOfGroupBuyingLimitException("超出出本商品的团购次数");
         }
     }
 }

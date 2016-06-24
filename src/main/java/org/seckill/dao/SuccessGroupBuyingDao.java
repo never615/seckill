@@ -39,7 +39,7 @@ public interface SuccessGroupBuyingDao {
      * @param groupBuyingId 团购商品id
      * @return 记录条数
      */
-    int queryByUserIdAndGroupBuyingId(@Param("userId") long userId, @Param("groupBuyingId") long groupBuyingId);
+    long queryByUserIdAndGroupBuyingId(@Param("userId") long userId, @Param("groupBuyingId") long groupBuyingId);
 
     /**
      * 根据用户id查询购买记录

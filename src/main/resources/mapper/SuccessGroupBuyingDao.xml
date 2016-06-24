@@ -3,11 +3,10 @@
 <mapper namespace="org.seckill.dao.SuccessGroupBuyingDao">
 
     <!--插入购买明细-->
-    <insert id="insertSuccessGroupBuying">
+    <select id="insertSuccessGroupBuying" resultType="long" >
         INSERT INTO success_group_buyings (group_buying_id, user_id, group_buying_at, state)
-        VALUES (#{groupBuyingId}, #{userId}, #{groupBuyingAt}, 0)
-        RETURNING id;
-    </insert>
+        VALUES (#{groupBuyingId}, #{userId}, #{groupBuyingAt}, 0) RETURNING id;
+    </select>
 
     <!--生成核销码-->
     <update id="updateVerificationCode">
