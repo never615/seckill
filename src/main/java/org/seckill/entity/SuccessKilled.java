@@ -40,7 +40,11 @@ public class SuccessKilled {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Date createAt;
+    /**
+     * 更新时间
+     */
+    private Date updateAt;
 
     public Seckill getSeckill() {
         return seckill;
@@ -82,12 +86,12 @@ public class SuccessKilled {
         this.seckillAt = seckillAt;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreateAt() {
+        return createAt;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
     }
 
     public String getVerificationCode() {
@@ -106,6 +110,14 @@ public class SuccessKilled {
         this.exchangeTime = exchangeTime;
     }
 
+    public Date getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        this.updateAt = updateAt;
+    }
+
     @Override
     public String toString() {
         return "SuccessKilled{" +
@@ -116,7 +128,8 @@ public class SuccessKilled {
                 ", verificationCode='" + verificationCode + '\'' +
                 ", exchangeTime=" + exchangeTime +
                 ", seckillAt=" + seckillAt +
-                ", createTime=" + createTime +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
                 '}';
     }
 }

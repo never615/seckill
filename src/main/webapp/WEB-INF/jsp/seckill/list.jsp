@@ -36,7 +36,7 @@
                 <fmt:formatDate value="${sk.endTime}" pattern="yyyy-MM-dd HH:mm:ss" />
               </td>
               <td>
-                <fmt:formatDate value="${sk.createTime}" pattern="yyyy-MM-dd HH:mm:ss" />
+                <fmt:formatDate value="${sk.createAt}" pattern="yyyy-MM-dd HH:mm:ss" />
               </td>
               <td><a class="btn btn-info" href="${sk.id}/detail" target="_blank">详情</a></td>
             </tr>

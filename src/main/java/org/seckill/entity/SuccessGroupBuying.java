@@ -31,7 +31,11 @@ public class SuccessGroupBuying {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Date createAt;
+    /**
+     * 更新时间
+     */
+    private Date updateAt;
 
     /**
      * 核销码
@@ -90,12 +94,12 @@ public class SuccessGroupBuying {
         this.groupBuyingAt = groupBuyingAt;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreateAt() {
+        return createAt;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
     }
 
     public String getVerificationCode() {
@@ -114,6 +118,14 @@ public class SuccessGroupBuying {
         this.exchangeTime = exchangeTime;
     }
 
+    public Date getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        this.updateAt = updateAt;
+    }
+
     @Override
     public String toString() {
         return "SuccessGroupBuying{" +
@@ -123,7 +135,8 @@ public class SuccessGroupBuying {
                 ", userId=" + userId +
                 ", state=" + state +
                 ", groupBuyingAt=" + groupBuyingAt +
-                ", createTime=" + createTime +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
                 ", verificationCode='" + verificationCode + '\'' +
                 ", exchangeTime=" + exchangeTime +
                 '}';

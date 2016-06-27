@@ -1,9 +1,5 @@
 package org.seckill.entity;
 
-import org.seckill.dao.redis.RedisDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
 import java.util.Date;
 
 /**
@@ -67,7 +63,9 @@ public class Seckill {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Date createAt;
+
+    private Date updateAt;
 
     public long getId() {
         return id;
@@ -167,12 +165,12 @@ public class Seckill {
         this.endTime = endTime;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreateAt() {
+        return createAt;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
     }
 
     public boolean isExamine() {
@@ -181,6 +179,14 @@ public class Seckill {
 
     public void setExamine(boolean examine) {
         this.examine = examine;
+    }
+
+    public Date getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        this.updateAt = updateAt;
     }
 
     @Override
@@ -199,9 +205,8 @@ public class Seckill {
                 ", remain=" + remain +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
-                ", createTime=" + createTime +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
                 '}';
     }
-
-
 }

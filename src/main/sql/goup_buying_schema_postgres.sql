@@ -7,7 +7,7 @@ CREATE TABLE group_buyings(
   describe          VARCHAR,
   integral          INTEGER      NOT NULL,
   original_integral INTEGER ,
-  examine           BOOL NOT NULL  DEFAULT FALSE ,
+  examine           BOOL ,
   publish           BOOL         NOT NULL  DEFAULT FALSE,
   images            VARCHAR,
   "limit"           INTEGER      ,
@@ -15,13 +15,14 @@ CREATE TABLE group_buyings(
   remain            INTEGER      NOT NULL,
   start_time        TIMESTAMP(6) NOT NULL,
   end_time          TIMESTAMP(6) NOT NULL,
-  create_time       TIMESTAMP(6) NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+  create_at       TIMESTAMP(6) NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+  update_at      TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 );
 
 CREATE INDEX ON group_buyings (start_time);
 CREATE INDEX ON group_buyings (end_time);
-CREATE INDEX ON group_buyings (create_time);
+CREATE INDEX ON group_buyings (create_at);
 
 
 ALTER SEQUENCE "public"."group_buyings_id_seq" RESTART 1000 OWNED BY "group_buyings"."id";
@@ -51,7 +52,8 @@ COMMENT ON COLUMN group_buyings.total IS '团购商品的总数量';
 COMMENT ON COLUMN group_buyings.remain IS '团购商品剩余数量';
 COMMENT ON COLUMN group_buyings.start_time IS '团购的开始时间';
 COMMENT ON COLUMN group_buyings.end_time IS '团购的结束时间';
-COMMENT ON COLUMN group_buyings.create_time IS '创建时间';
+COMMENT ON COLUMN group_buyings.create_at IS '创建时间';
+COMMENT ON COLUMN group_buyings.update_at IS '更新时间';
 
 
 
@@ -64,7 +66,8 @@ CREATE TABLE success_group_buyings (
   verification_code VARCHAR(255) ,
   exchange_time TIMESTAMP(6) ,
   group_buying_at  TIMESTAMP(6) NOT NULL ,
-  create_time TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  create_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  update_at      TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 );
 
@@ -79,7 +82,8 @@ COMMENT ON COLUMN success_group_buyings.state IS '团购状态:  -1:无效,0:成
 COMMENT ON COLUMN success_group_buyings.verification_code IS '核销码';
 COMMENT ON COLUMN success_group_buyings.exchange_time IS '核销时间';
 COMMENT ON COLUMN success_group_buyings.group_buying_at IS '团购时间';
-COMMENT ON COLUMN success_group_buyings.create_time IS '创建时间';
+COMMENT ON COLUMN success_group_buyings.create_at IS '创建时间';
+COMMENT ON COLUMN success_group_buyings.update_at IS '更新时间';
 
 
 
