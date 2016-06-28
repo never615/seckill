@@ -63,9 +63,9 @@ public class Seckill {
     /**
      * 创建时间
      */
-    private Date createAt;
+    private Date createdAt;
 
-    private Date updateAt;
+    private Date updatedAt;
 
     public long getId() {
         return id;
@@ -165,12 +165,12 @@ public class Seckill {
         this.endTime = endTime;
     }
 
-    public Date getCreateAt() {
-        return createAt;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public boolean isExamine() {
@@ -181,12 +181,12 @@ public class Seckill {
         this.examine = examine;
     }
 
-    public Date getUpdateAt() {
-        return updateAt;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdateAt(Date updateAt) {
-        this.updateAt = updateAt;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -205,8 +205,8 @@ public class Seckill {
                 ", remain=" + remain +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
-                ", createAt=" + createAt +
-                ", updateAt=" + updateAt +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

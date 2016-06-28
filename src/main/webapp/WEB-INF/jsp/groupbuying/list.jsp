@@ -36,7 +36,7 @@
                 <fmt:formatDate value="${groupbuying.endTime}" pattern="yyyy-MM-dd HH:mm:ss" />
               </td>
               <td>
-                <fmt:formatDate value="${groupbuying.createAt}" pattern="yyyy-MM-dd HH:mm:ss" />
+                <fmt:formatDate value="${groupbuying.createdAt}" pattern="yyyy-MM-dd HH:mm:ss" />
               </td>
               <td><a class="btn btn-info" href="${groupbuying.id}/detail" target="_blank">详情</a></td>
             </tr>

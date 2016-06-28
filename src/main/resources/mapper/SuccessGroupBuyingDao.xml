@@ -25,7 +25,7 @@
             sg.group_buying_at,
             sg.verification_code,
             sg.exchange_time,
-            sg.create_at,
+            sg.created_at,
             gb.id          "groupBuying.id",
             gb.merchat_id  "groupBuying.merchat_id",
             gb.name        "groupBuying.name",
@@ -40,7 +40,7 @@
             gb.remain      "groupBuying.remain",
             gb.start_time  "groupBuying.start_time",
             gb.end_time    "groupBuying.end_time",
-            gb.create_at "groupBuying.create_at"
+            gb.created_at "groupBuying.created_at"
         FROM success_group_buyings AS sg INNER JOIN group_buyings AS gb ON sg.group_buying_id = gb.id
         WHERE sg.id = #{id};
     </select>
@@ -62,7 +62,7 @@
             sg.group_buying_at,
             sg.verification_code,
             sg.exchange_time,
-            sg.create_at,
+            sg.created_at,
             gb.id          "groupBuying.id",
             gb.merchat_id  "groupBuying.merchat_id",
             gb.name        "groupBuying.name",
@@ -76,7 +76,7 @@
             gb.remain      "groupBuying.remain",
             gb.start_time  "groupBuying.start_time",
             gb.end_time    "groupBuying.end_time",
-            gb.create_at "groupBuying.create_at"
+            gb.created_at "groupBuying.created_at"
         FROM success_group_buyings AS sg INNER JOIN group_buyings AS gb ON sg.group_buying_id = gb.id
         WHERE sg.user_id = #{userId};
     </select>

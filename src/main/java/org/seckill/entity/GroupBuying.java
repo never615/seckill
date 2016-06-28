@@ -71,11 +71,11 @@ public class GroupBuying {
     /**
      * 创建时间
      */
-    private Date createAt;
+    private Date createdAt;
     /**
      * 更新时间
      */
-    private Date updateAt;
+    private Date updatedAt;
 
     public long getId() {
         return id;
@@ -197,20 +197,20 @@ public class GroupBuying {
         this.endTime = endTime;
     }
 
-    public Date getCreateAt() {
-        return createAt;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Date getUpdateAt() {
-        return updateAt;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdateAt(Date updateAt) {
-        this.updateAt = updateAt;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -231,8 +231,8 @@ public class GroupBuying {
                 ", remain=" + remain +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
-                ", createAt=" + createAt +
-                ", updateAt=" + updateAt +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

@@ -31,7 +31,7 @@
         SELECT *
         FROM group_buyings
         WHERE examine = TRUE AND publish = TRUE
-        ORDER BY create_at DESC
+        ORDER BY created_at DESC
         LIMIT #{limit}
         OFFSET #{offset}
     </select>
