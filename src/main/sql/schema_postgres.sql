@@ -60,8 +60,8 @@ CREATE TABLE success_seckilleds (
   verification_code VARCHAR(255),
   exchange_time     TIMESTAMP(6),
   seckill_at        TIMESTAMP(6) NOT NULL,
-  created_at       TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at       TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at       TIMESTAMP(6) NOT NULL DEFAULT current_date,
+  updated_at       TIMESTAMP(6) NOT NULL DEFAULT current_date,
   PRIMARY KEY (seckill_id, user_id)
 );
 
