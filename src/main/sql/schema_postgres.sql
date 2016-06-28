@@ -13,13 +13,13 @@ CREATE TABLE seckills (
   remain      INTEGER      NOT NULL,
   start_time  TIMESTAMP(6) NOT NULL,
   end_time    TIMESTAMP(6) NOT NULL,
-  create_at TIMESTAMP(6) NOT NULL  DEFAULT CURRENT_TIMESTAMP,
-  update_at TIMESTAMP(6) NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP(6) NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP(6) NOT NULL  DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 );
 CREATE INDEX ON seckills (start_time);
 CREATE INDEX ON seckills (end_time);
-CREATE INDEX ON seckills (create_at);
+CREATE INDEX ON seckills (created_at);
 
 
 ALTER SEQUENCE "public"."seckills_id_seq" RESTART 1000 OWNED BY "seckills"."id";
@@ -49,8 +49,8 @@ COMMENT ON COLUMN seckills.total IS '秒杀商品的总数量';
 COMMENT ON COLUMN seckills.remain IS '秒杀商品剩余数量';
 COMMENT ON COLUMN seckills.start_time IS '秒杀的开始时间';
 COMMENT ON COLUMN seckills.end_time IS '秒杀的结束时间';
-COMMENT ON COLUMN seckills.create_at IS '创建时间';
-COMMENT ON COLUMN seckills.update_at IS '更新时间';
+COMMENT ON COLUMN seckills.created_at IS '创建时间';
+COMMENT ON COLUMN seckills.updated_at IS '更新时间';
 
 --------------------- 2.秒杀成功明细表 ----------------------
 CREATE TABLE success_seckilleds (
@@ -60,8 +60,8 @@ CREATE TABLE success_seckilleds (
   verification_code VARCHAR(255),
   exchange_time     TIMESTAMP(6),
   seckill_at        TIMESTAMP(6) NOT NULL,
-  create_at       TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  update_at       TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at       TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at       TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (seckill_id, user_id)
 );
 
@@ -75,8 +75,8 @@ COMMENT ON COLUMN success_seckilleds.state IS '秒杀状态:  -1:无效,0:成功
 COMMENT ON COLUMN success_seckilleds.verification_code IS '核销码';
 COMMENT ON COLUMN success_seckilleds.exchange_time IS '核销时间';
 COMMENT ON COLUMN success_seckilleds.seckill_at IS '秒杀时间';
-COMMENT ON COLUMN success_seckilleds.create_at IS '创建时间';
-COMMENT ON COLUMN success_seckilleds.update_at IS '更新时间';
+COMMENT ON COLUMN success_seckilleds.created_at IS '创建时间';
+COMMENT ON COLUMN success_seckilleds.updated_at IS '更新时间';
 
 
 

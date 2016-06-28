@@ -28,7 +28,7 @@
         SELECT *
         FROM seckills
         WHERE examine = TRUE AND seckills.publish =TRUE
-        ORDER BY create_at DESC
+        ORDER BY created_at DESC
         LIMIT #{limit}
         OFFSET #{offset}
     </select>

@@ -19,7 +19,7 @@
             sk.exchange_time,
             sk.state,
             sk.seckill_at,
-            sk.create_at,
+            sk.created_at,
             s.id          "seckill.id",
             s.merchat_id  "seckill.merchat_id",
             s.name        "seckill.name",
@@ -33,7 +33,7 @@
             s.remain      "seckill.remain",
             s.start_time  "seckill.start_time",
             s.end_time    "seckill.end_time",
-            s.create_at "seckill.create_at"
+            s.created_at "seckill.created_at"
         FROM success_seckilleds AS sk INNER JOIN seckills AS s ON sk.seckill_id = s.id
         WHERE sk.seckill_id = #{seckilledId} AND sk.user_id = #{userId};
     </select>
