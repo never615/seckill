@@ -13,8 +13,8 @@ CREATE TABLE seckills (
   remain      INTEGER      NOT NULL,
   start_time  TIMESTAMP(6) NOT NULL,
   end_time    TIMESTAMP(6) NOT NULL,
-  created_at TIMESTAMP(6) NOT NULL  DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP(6) NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP(6) NOT NULL  DEFAULT current_date,
+  updated_at TIMESTAMP(6) NOT NULL  DEFAULT current_date,
   PRIMARY KEY (id)
 );
 CREATE INDEX ON seckills (start_time);
