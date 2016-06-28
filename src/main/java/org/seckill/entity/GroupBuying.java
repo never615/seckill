@@ -61,6 +61,10 @@ public class GroupBuying {
      */
     private long remain;
     /**
+     * 商品详情的富文本介绍
+     */
+    private String details;
+    /**
      * 团购开始时间
      */
     private Date startTime;
@@ -213,6 +217,14 @@ public class GroupBuying {
         this.updatedAt = updatedAt;
     }
 
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
     @Override
     public String toString() {
         return "GroupBuying{" +
@@ -229,6 +241,7 @@ public class GroupBuying {
                 ", limit=" + limit +
                 ", total=" + total +
                 ", remain=" + remain +
+                ", details='" + details + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", createdAt=" + createdAt +

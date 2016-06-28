@@ -13,6 +13,7 @@ CREATE TABLE group_buyings(
   "limit"           INTEGER      ,
   total             INTEGER      NOT NULL,
   remain            INTEGER      NOT NULL,
+  details     TEXT  ,
   start_time        TIMESTAMP(6) NOT NULL,
   end_time          TIMESTAMP(6) NOT NULL,
   created_at       TIMESTAMP(6) NOT NULL  DEFAULT current_date,
@@ -50,6 +51,7 @@ COMMENT ON COLUMN group_buyings.images IS '团购商品详情图片,可以多个
 COMMENT ON COLUMN group_buyings."limit" IS '团购商品每个人限制购买的数量';
 COMMENT ON COLUMN group_buyings.total IS '团购商品的总数量';
 COMMENT ON COLUMN group_buyings.remain IS '团购商品剩余数量';
+COMMENT ON COLUMN group_buyings.details IS '团购商品的富文本详细描述';
 COMMENT ON COLUMN group_buyings.start_time IS '团购的开始时间';
 COMMENT ON COLUMN group_buyings.end_time IS '团购的结束时间';
 COMMENT ON COLUMN group_buyings.created_at IS '创建时间';

@@ -53,6 +53,10 @@ public class Seckill {
      */
     private long remain;
     /**
+     * 秒杀商品的富文本详细介绍
+     */
+    private String details;
+    /**
      * 秒杀开始时间
      */
     private Date startTime;
@@ -189,6 +193,14 @@ public class Seckill {
         this.updatedAt = updatedAt;
     }
 
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
     @Override
     public String toString() {
         return "Seckill{" +
@@ -203,6 +215,7 @@ public class Seckill {
                 ", images='" + images + '\'' +
                 ", total=" + total +
                 ", remain=" + remain +
+                ", details=" + details +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", createdAt=" + createdAt +
