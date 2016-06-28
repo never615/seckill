@@ -31,6 +31,7 @@
             s.images      "seckill.images",
             s.total       "seckill.total",
             s.remain      "seckill.remain",
+            s.details    "seckill.details",
             s.start_time  "seckill.start_time",
             s.end_time    "seckill.end_time",
             s.created_at "seckill.created_at"

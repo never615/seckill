@@ -11,10 +11,11 @@ CREATE TABLE seckills (
   images      VARCHAR,
   total       INTEGER      NOT NULL,
   remain      INTEGER      NOT NULL,
+  details     TEXT  ,
   start_time  TIMESTAMP(6) NOT NULL,
   end_time    TIMESTAMP(6) NOT NULL,
-  created_at TIMESTAMP(6) NOT NULL  DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP(6) NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP(6) NOT NULL  DEFAULT current_date,
+  updated_at TIMESTAMP(6) NOT NULL  DEFAULT current_date,
   PRIMARY KEY (id)
 );
 CREATE INDEX ON seckills (start_time);
@@ -47,6 +48,7 @@ COMMENT ON COLUMN seckills.publish IS '秒杀商品是否可以秒杀';
 COMMENT ON COLUMN seckills.images IS '秒杀商品详情图片,可以多个链接,用英文逗号分开';
 COMMENT ON COLUMN seckills.total IS '秒杀商品的总数量';
 COMMENT ON COLUMN seckills.remain IS '秒杀商品剩余数量';
+COMMENT ON COLUMN seckills.details IS '秒杀商品的富文本详细介绍';
 COMMENT ON COLUMN seckills.start_time IS '秒杀的开始时间';
 COMMENT ON COLUMN seckills.end_time IS '秒杀的结束时间';
 COMMENT ON COLUMN seckills.created_at IS '创建时间';
@@ -60,8 +62,8 @@ CREATE TABLE success_seckilleds (
   verification_code VARCHAR(255),
   exchange_time     TIMESTAMP(6),
   seckill_at        TIMESTAMP(6) NOT NULL,
-  created_at       TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at       TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at       TIMESTAMP(6) NOT NULL DEFAULT current_date,
+  updated_at       TIMESTAMP(6) NOT NULL DEFAULT current_date,
   PRIMARY KEY (seckill_id, user_id)
 );
 
