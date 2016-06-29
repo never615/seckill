@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.postgresql.util.Base64;
 import org.seckill.dto.Exposer;
+import org.seckill.dto.SeckillDto;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.entity.Seckill;
 import org.seckill.service.SeckillService;
@@ -35,13 +36,13 @@ public class SeckillServiceTest {
     @Test
     public void testGetById() throws Exception {
         long id = 1000;
-        Seckill seckill = seckillService.getById(id);
+        SeckillDto seckill = seckillService.getById(id);
         System.out.println(seckill);
     }
 
     @Test
     public void testGetSeckillList() throws Exception {
-//        System.out.println(seckillService.getSeckillList());
+        System.out.println(seckillService.getSeckillList(0,20));
     }
 
     /**

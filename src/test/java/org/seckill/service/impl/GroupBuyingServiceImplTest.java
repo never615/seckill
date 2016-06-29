@@ -2,6 +2,7 @@ package org.seckill.service.impl;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.seckill.dto.GroupBuyingDto;
 import org.seckill.dto.GroupBuyingExecution;
 import org.seckill.entity.GroupBuying;
 import org.seckill.service.GroupBuyingService;
@@ -27,15 +28,15 @@ public class GroupBuyingServiceImplTest {
 
     @Test
     public void testGetGroupBuyingList() throws Exception {
-        List<GroupBuying> groupBuyingList = groupBuyingService.getGroupBuyingList(0, 10);
-        for (GroupBuying groupBuying : groupBuyingList) {
+        List<GroupBuyingDto> groupBuyingList = groupBuyingService.getGroupBuyingList(0, 10);
+        for (GroupBuyingDto groupBuying : groupBuyingList) {
             System.out.println(groupBuying);
         }
     }
 
     @Test
     public void testGetById() throws Exception {
-        GroupBuying groupBuying = groupBuyingService.getById(1000);
+        GroupBuyingDto groupBuying = groupBuyingService.getById(1000);
         System.out.println(groupBuying);
     }
 

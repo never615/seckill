@@ -29,10 +29,10 @@ ALTER SEQUENCE "public"."seckills_id_seq" RESTART 1000 OWNED BY "seckills"."id";
 -- 初始化数据
 INSERT INTO seckills (name, integral, examine,publish, total, remain, start_time, end_time,logo)
 VALUES
-  ('1000元秒杀iphone6', 10, TRUE ,TRUE, 100, 100, '2016-06-27 00:00:00', '2016-06-30 00:00:00','http://img3.imgtn.bdimg.com/it/u=2906547173,2965634582&fm=11&gp=0.jpg'),
+  ('1000元秒杀iphone6', 10, TRUE ,TRUE, 100, 100, '2016-06-27 00:00:00', '2016-06-30 00:00:00','logo.png'),
   ('800元秒杀ipad', 10, TRUE ,TRUE, 200, 200, '2016-06-26 00:00:00', '2016-06-27 00:00:00','655/seckills/logo/20160629120733-55.jpg'),
-  ('6600元秒杀mac book pro', 10, TRUE ,TRUE, 300, 300, '2016-06-30 00:00:00', '2016-07-17 00:00:00','http://img3.imgtn.bdimg.com/it/u=1490981341,2458377782&fm=21&gp=0.jpg'),
-  ('7000元秒杀iMac', 10, TRUE ,TRUE, 400, 400, '2016-06-14 00:00:00', '2016-06-15 00:00:00','http://img2.itsogo.net/Upfile2/2012/10/101791736112781.jpeg');
+  ('6600元秒杀mac book pro', 10, TRUE ,TRUE, 300, 300, '2016-06-30 00:00:00', '2016-07-17 00:00:00','logo.png'),
+  ('7000元秒杀iMac', 10, TRUE ,TRUE, 400, 400, '2016-06-14 00:00:00', '2016-06-15 00:00:00','logo.png');
 
 
 
