@@ -27,7 +27,7 @@
     <select id="queryAll" resultType="Seckill">
         SELECT *
         FROM seckills
-        WHERE examine = TRUE AND seckills.publish =TRUE
+        WHERE examine = TRUE AND seckills.publish =TRUE AND end_time <![CDATA[<=]]> now()
         ORDER BY created_at DESC
         LIMIT #{limit}
         OFFSET #{offset}

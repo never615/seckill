@@ -1,11 +1,12 @@
 --------------------- 1.秒杀商品表----------------------
 CREATE TABLE seckills (
   id          SERIAL,
-  merchat_id  INTEGER REFERENCES merchants,
+  merchant_id  INTEGER REFERENCES merchants,
   name        VARCHAR      NOT NULL,
   logo        VARCHAR,
   describe    VARCHAR,
   integral    INTEGER      NOT NULL,
+  original_integral INTEGER ,
   examine     BOOL         ,
   publish     BOOL         NOT NULL  DEFAULT FALSE,
   images      VARCHAR,
@@ -26,23 +27,24 @@ CREATE INDEX ON seckills (created_at);
 ALTER SEQUENCE "public"."seckills_id_seq" RESTART 1000 OWNED BY "seckills"."id";
 
 -- 初始化数据
-INSERT INTO seckills (name, integral, examine,publish, total, remain, start_time, end_time)
+INSERT INTO seckills (name, integral, examine,publish, total, remain, start_time, end_time,logo)
 VALUES
-  ('1000元秒杀iphone6', 10, TRUE ,TRUE, 100, 100, '2016-06-27 00:00:00', '2016-06-30 00:00:00'),
-  ('800元秒杀ipad', 10, TRUE ,TRUE, 200, 200, '2016-06-26 00:00:00', '2016-06-27 00:00:00'),
-  ('6600元秒杀mac book pro', 10, TRUE ,TRUE, 300, 300, '2016-06-30 00:00:00', '2016-07-17 00:00:00'),
-  ('7000元秒杀iMac', 10, TRUE ,TRUE, 400, 400, '2016-06-14 00:00:00', '2016-06-15 00:00:00');
+  ('1000元秒杀iphone6', 10, TRUE ,TRUE, 100, 100, '2016-06-27 00:00:00', '2016-06-30 00:00:00','http://img3.imgtn.bdimg.com/it/u=2906547173,2965634582&fm=11&gp=0.jpg'),
+  ('800元秒杀ipad', 10, TRUE ,TRUE, 200, 200, '2016-06-26 00:00:00', '2016-06-27 00:00:00','655/seckills/logo/20160629120733-55.jpg'),
+  ('6600元秒杀mac book pro', 10, TRUE ,TRUE, 300, 300, '2016-06-30 00:00:00', '2016-07-17 00:00:00','http://img3.imgtn.bdimg.com/it/u=1490981341,2458377782&fm=21&gp=0.jpg'),
+  ('7000元秒杀iMac', 10, TRUE ,TRUE, 400, 400, '2016-06-14 00:00:00', '2016-06-15 00:00:00','http://img2.itsogo.net/Upfile2/2012/10/101791736112781.jpeg');
 
 
 
 -- 表注释
 COMMENT ON TABLE seckills IS '秒杀商品表';
 COMMENT ON COLUMN seckills.id IS '秒杀商品的id';
-COMMENT ON COLUMN seckills.merchat_id IS '秒杀商品关联的店铺';
+COMMENT ON COLUMN seckills.merchant_id IS '秒杀商品关联的店铺';
 COMMENT ON COLUMN seckills.name IS '秒杀商品的名称';
 COMMENT ON COLUMN seckills.logo IS '秒杀商品的logo';
 COMMENT ON COLUMN seckills.describe IS '秒杀商品的描述';
 COMMENT ON COLUMN seckills.integral IS '秒杀商品需要的积分';
+COMMENT ON COLUMN seckills.original_integral IS '秒杀商品需要的积分原价';
 COMMENT ON COLUMN seckills.examine IS '秒杀商品是否审查通过';
 COMMENT ON COLUMN seckills.publish IS '秒杀商品是否可以秒杀';
 COMMENT ON COLUMN seckills.images IS '秒杀商品详情图片,可以多个链接,用英文逗号分开';

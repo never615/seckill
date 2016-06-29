@@ -11,7 +11,7 @@
     <!--配置整合mybatis过程-->
 
     <!--１.配置数据库相关参数-->
-    <context:property-placeholder location="classpath:jdbc.properties,classpath:redis.properties"/>
+    <context:property-placeholder location="classpath:jdbc.properties,classpath:redis.properties,classpath:config.properties"/>
 
     <!--2.配置连接池属性-->
     <!-- 数据源配置, 使用 BoneCP 数据库连接池 -->
@@ -86,6 +86,25 @@
     <!--&lt;!&ndash; 事务注解驱动，标注@Transactional的类和方法将具有事务性 &ndash;&gt;-->
     <!--<tx:annotation-driven transaction-manager="txManager" />-->
 
+
+    <context:component-scan base-package="org.seckill.dao.config"/>
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <!--<property name="ignoreUnresolvablePlaceholders" value="true"/>-->
+        <property name="location" value="classpath:config.properties"/>
+        <property name="fileEncoding" value="utf-8" />
+    </bean>
+    <!--<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">-->
+    <!--<property name="ignoreUnresolvablePlaceholders" value="true"/>-->
+    <!--<property name="locations">-->
+    <!--<list>-->
+    <!--<value>classpath:config.properties</value>-->
+    <!--</list>-->
+    <!--</property>-->
+    <!--</bean>-->
+
+
+    <context:component-scan base-package="org.seckill.dto.mapper"/>
 
 
 

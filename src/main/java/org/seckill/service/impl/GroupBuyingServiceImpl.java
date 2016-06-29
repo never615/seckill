@@ -4,6 +4,8 @@ import org.seckill.dao.GroupBuyingDao;
 import org.seckill.dao.SuccessGroupBuyingDao;
 import org.seckill.dao.UserDao;
 import org.seckill.dto.GroupBuyingExecution;
+import org.seckill.dto.SuccessGroupBuyingDto;
+import org.seckill.dto.mapper.SuccessGroupBuyingDtoMapper;
 import org.seckill.entity.GroupBuying;
 import org.seckill.entity.SuccessGroupBuying;
 import org.seckill.enums.GroupBuyingStateEnum;
@@ -30,6 +32,7 @@ public class GroupBuyingServiceImpl implements GroupBuyingService {
     @Autowired GroupBuyingDao groupBuyingDao;
     @Autowired SuccessGroupBuyingDao successGroupBuyingDao;
     @Autowired UserDao userDao;
+    @Autowired SuccessGroupBuyingDtoMapper successGroupBuyingDtoMapper;
 
     @Override
     public List<GroupBuying> getGroupBuyingList(long offset, long limit) {
@@ -67,7 +70,7 @@ public class GroupBuyingServiceImpl implements GroupBuyingService {
 
         int limit = groupBuying.getLimit();
 
-        if (limit==0 ||limit>recordNum) {
+        if (limit == 0 || limit > recordNum) {
             //还可以购买
             //插入购买明细
             long successGroupBuyingId = successGroupBuyingDao.insertSuccessGroupBuying(groupBuyingId, userId, nowTime);
@@ -85,14 +88,16 @@ public class GroupBuyingServiceImpl implements GroupBuyingService {
 
                     SuccessGroupBuying successGroupBuying = successGroupBuyingDao.queryByIdWithGroupBuying(successGroupBuyingId);
 
-                    // FIXME: 6/23/16 type写到枚举
+                    SuccessGroupBuyingDto successGroupBuyingDto = successGroupBuyingDtoMapper.mapper(successGroupBuying);
+
+                    // FIXME: 6/23/16 type写到枚举 现在的核销码规则,其实不用生成核销码
                     //生成核销码
-                    String verificationCode= AppUtils.createVerificationCode("3",userId,successGroupBuyingId);
+                    String verificationCode = AppUtils.createVerificationCode("3", userId, successGroupBuyingId);
                     count = successGroupBuyingDao.updateVerificationCode(successGroupBuyingId, verificationCode);
                     if (count <= 0) {
                         throw new GroupBuyingException("团购失败");
                     }
-                    return new GroupBuyingExecution(GroupBuyingStateEnum.SUCCESS, successGroupBuying);
+                    return new GroupBuyingExecution(GroupBuyingStateEnum.SUCCESS, successGroupBuyingDto);
                 }
             }
         } else {

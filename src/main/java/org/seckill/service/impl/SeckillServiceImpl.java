@@ -5,10 +5,14 @@ import org.seckill.dao.SeckillDao;
 import org.seckill.dao.SuccessKilledDao;
 import org.seckill.dao.redis.RedisDao;
 import org.seckill.dto.Exposer;
+import org.seckill.dto.SeckillDto;
 import org.seckill.dto.SeckillExecution;
+import org.seckill.dto.SuccessKilledDto;
+import org.seckill.dto.mapper.SuccessKillDtoMapper;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.enums.SeckillStateEnum;
+import org.seckill.dao.config.Config;
 import org.seckill.service.SeckillService;
 import org.seckill.utils.AppUtils;
 import org.slf4j.Logger;
@@ -23,10 +27,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.DigestUtils;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 处理秒杀业务
@@ -41,6 +42,8 @@ public class SeckillServiceImpl implements SeckillService {
     @Autowired private SuccessKilledDao successKilledDao;
     @Autowired private TransactionTemplate txTemplate;
     @Autowired private RedisDao redisDao;
+    @Autowired private Config config;
+    @Autowired private SuccessKillDtoMapper successKillDtoMapper;
 
     // FIXME: 6/16/16
     //md5盐值字符串,用于混淆md5
@@ -94,7 +97,7 @@ public class SeckillServiceImpl implements SeckillService {
 
 
         //生成核销码
-        String verificationCode= AppUtils.createVerificationCode("3",userId,seckillId);
+        String verificationCode = AppUtils.createVerificationCode("3", userId, seckillId);
 
 
         Date killTime = new Date();
@@ -102,7 +105,7 @@ public class SeckillServiceImpl implements SeckillService {
         map.put("seckillId", (int) seckillId);
         map.put("userId", (int) userId);
         map.put("seckillAt", killTime);
-        map.put("verificationCode",verificationCode);
+        map.put("verificationCode", verificationCode);
         map.put("result", -201);
 
 
@@ -126,10 +129,14 @@ public class SeckillServiceImpl implements SeckillService {
             //result -1:(秒杀失败)已经秒杀过   -2:(秒杀失败)sql异常   0:秒杀失败(不在秒杀时间或者库存不足) 1:秒杀成功
             if (result == 0) {
                 //秒杀成功查询秒杀对象返回
-                SuccessKilled sk = successKilledDao.queryByIdWithSeckill(seckillId, userId);
+                SuccessKilled successKilled = successKilledDao.queryByIdWithSeckill(seckillId, userId);
+
                 transactionManager.commit(status);
 
-                return new SeckillExecution(seckillId, SeckillStateEnum.SUCCESS, sk);
+                SuccessKilledDto successKilledDto = successKillDtoMapper.mapper(successKilled);
+
+
+                return new SeckillExecution(seckillId, SeckillStateEnum.SUCCESS, successKilledDto);
             } else {
                 return new SeckillExecution(seckillId, SeckillStateEnum.stateOf(result));
             }
@@ -137,6 +144,8 @@ public class SeckillServiceImpl implements SeckillService {
             transactionManager.rollback(status);
             return new SeckillExecution(seckillId, SeckillStateEnum.REPEAT_KILL);
         } catch (Exception e) {
+            System.out.println("-----------------异常:"+e);
+
             transactionManager.rollback(status);
             return new SeckillExecution(seckillId, SeckillStateEnum.INNER_ERROR);
         }
