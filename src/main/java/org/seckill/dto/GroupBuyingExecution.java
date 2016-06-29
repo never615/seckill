@@ -1,9 +1,6 @@
 package org.seckill.dto;
 
-import org.seckill.entity.SuccessGroupBuying;
-import org.seckill.entity.SuccessKilled;
 import org.seckill.enums.GroupBuyingStateEnum;
-import org.seckill.enums.SeckillStateEnum;
 
 /**
  * 封装团购执行后的结果
@@ -12,10 +9,10 @@ import org.seckill.enums.SeckillStateEnum;
 public class GroupBuyingExecution {
 
 
-    public GroupBuyingExecution(GroupBuyingStateEnum groupBuyingStateEnum, SuccessGroupBuying successGroupBuying) {
+    public GroupBuyingExecution(GroupBuyingStateEnum groupBuyingStateEnum, SuccessGroupBuyingDto successGroupBuyingDto) {
         this.state = groupBuyingStateEnum.getState();
         this.stateInfo = groupBuyingStateEnum.getStateInfo();
-        this.successGroupBuying = successGroupBuying;
+        this.successGroupBuyingDto = successGroupBuyingDto;
     }
 
     public GroupBuyingExecution(GroupBuyingStateEnum groupBuyingStateEnum) {
@@ -36,7 +33,7 @@ public class GroupBuyingExecution {
     /**
      * 成功团购记录
      */
-    private SuccessGroupBuying successGroupBuying;
+    private SuccessGroupBuyingDto successGroupBuyingDto;
 
     public int getState() {
         return state;
@@ -54,12 +51,12 @@ public class GroupBuyingExecution {
         this.stateInfo = stateInfo;
     }
 
-    public SuccessGroupBuying getSuccessGroupBuying() {
-        return successGroupBuying;
+    public SuccessGroupBuyingDto getSuccessGroupBuyingDto() {
+        return successGroupBuyingDto;
     }
 
-    public void setSuccessGroupBuying(SuccessGroupBuying successGroupBuying) {
-        this.successGroupBuying = successGroupBuying;
+    public void setSuccessGroupBuyingDto(SuccessGroupBuyingDto successGroupBuyingDto) {
+        this.successGroupBuyingDto = successGroupBuyingDto;
     }
 
     @Override
@@ -67,7 +64,7 @@ public class GroupBuyingExecution {
         return "GroupBuyingExecution{" +
                 "state=" + state +
                 ", stateInfo='" + stateInfo + '\'' +
-                ", successGroupBuying=" + successGroupBuying +
+                ", successGroupBuyingDto=" + successGroupBuyingDto +
                 '}';
     }
 }

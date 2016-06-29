@@ -1,15 +1,16 @@
-package org.seckill.entity;
+package org.seckill.dto;
 
 import java.util.Date;
+import java.util.List;
 
 /**
- * 团购商品model
- * Created by never615 on 6/22/16.
+ * 秒杀商品的dto对象
+ * Created by never615 on 6/15/16.
  */
-public class GroupBuying {
+public class SeckillDto{
 
     /**
-     * 团购商品id
+     * 秒杀商品id
      */
     private long id;
     /**
@@ -17,7 +18,7 @@ public class GroupBuying {
      */
     private long merchantId;
     /**
-     * 团购商品的名字
+     * 秒杀商品的名字
      */
     private String name;
     /**
@@ -29,11 +30,11 @@ public class GroupBuying {
      */
     private String describe;
     /**
-     * 团购所需要的积分
+     * 秒杀所需要的积分
      */
     private long integral;
     /**
-     * 团购原本所需要的积分
+     * 原价积分
      */
     private long originalIntegral;
     /**
@@ -49,10 +50,6 @@ public class GroupBuying {
      */
     private String images;
     /**
-     * 每个人限制团购的数量
-     */
-    private int limit;
-    /**
      * 商品的总数量
      */
     private long total;
@@ -61,25 +58,27 @@ public class GroupBuying {
      */
     private long remain;
     /**
-     * 商品详情的富文本介绍
+     * 秒杀商品的富文本详细介绍
      */
     private String details;
     /**
-     * 团购开始时间
+     * 秒杀开始时间
      */
     private Date startTime;
     /**
-     * 团购结束时间
+     * 秒杀结束时间
      */
     private Date endTime;
     /**
      * 创建时间
      */
     private Date createdAt;
-    /**
-     * 更新时间
-     */
+
     private Date updatedAt;
+    /**
+     * 图片地址
+     */
+    private List<String> imageUrls;
 
     public long getId() {
         return id;
@@ -161,14 +160,6 @@ public class GroupBuying {
         this.images = images;
     }
 
-    public int getLimit() {
-        return limit;
-    }
-
-    public void setLimit(int limit) {
-        this.limit = limit;
-    }
-
     public long getTotal() {
         return total;
     }
@@ -183,6 +174,14 @@ public class GroupBuying {
 
     public void setRemain(long remain) {
         this.remain = remain;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     public Date getStartTime() {
@@ -217,17 +216,17 @@ public class GroupBuying {
         this.updatedAt = updatedAt;
     }
 
-    public String getDetails() {
-        return details;
+    public List<String> getImageUrls() {
+        return imageUrls;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 
     @Override
     public String toString() {
-        return "GroupBuying{" +
+        return "SeckillDto{" +
                 "id=" + id +
                 ", merchantId=" + merchantId +
                 ", name='" + name + '\'' +
@@ -238,7 +237,6 @@ public class GroupBuying {
                 ", examine=" + examine +
                 ", publish=" + publish +
                 ", images='" + images + '\'' +
-                ", limit=" + limit +
                 ", total=" + total +
                 ", remain=" + remain +
                 ", details='" + details + '\'' +
@@ -246,6 +244,7 @@ public class GroupBuying {
                 ", endTime=" + endTime +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
+                ", imageUrls=" + imageUrls +
                 '}';
     }
 }

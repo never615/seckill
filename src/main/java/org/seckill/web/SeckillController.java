@@ -8,6 +8,7 @@ import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.entity.Seckill;
 import org.seckill.enums.RequestStateEnum;
+import org.seckill.dao.config.Config;
 import org.seckill.service.SeckillService;
 import org.seckill.service.UserService;
 import org.slf4j.Logger;
@@ -31,6 +32,7 @@ public class SeckillController {
 
     @Autowired private SeckillService seckillService;
     @Autowired private UserService userService;
+    @Autowired Config config;
 
 
     /**
@@ -44,8 +46,8 @@ public class SeckillController {
     public String list(Model model, @RequestParam("page") int page) {
 
         // FIXME: 6/16/16 一页的数量使用配置文件
-        long offset = (page - 1) * 20;
-        long limit = 20;
+        long offset = (page - 1) * config.getPageItems();
+        long limit = config.getPageItems();
         model.addAttribute("list", seckillService.getSeckillList(offset, limit));
         return "seckill/list";
     }
@@ -117,6 +119,11 @@ public class SeckillController {
 
             if (userService.isUserExist(userId)) {
                 SeckillExecution seckillExecution = seckillService.executeSeckillProcedure(seckillId, userId, md5);
+
+//                for (String s : seckillExecution.getSuccessKilledDto().getSeckillDto().getImageUrls()) {
+//                    System.out.println("地址:"+s);
+//                }
+
                 return new ApiResult<SeckillExecution>(RequestStateEnum.SUCCESS, seckillExecution);
             } else {
                 //用户不存在
@@ -138,4 +145,13 @@ public class SeckillController {
     public ApiResult<Long> execute(Model model) {
         return new ApiResult<Long>(RequestStateEnum.SUCCESS, new Date().getTime());
     }
+
+//
+//    @RequestMapping(value = "test", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+//    @ResponseBody
+//    public String test(Model model) {
+//        String imageUrl = config.getImageUrl();
+//        return imageUrl;
+////        System.out.println(imageUrl);
+//    }
 }

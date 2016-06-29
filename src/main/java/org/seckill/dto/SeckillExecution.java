@@ -1,6 +1,5 @@
 package org.seckill.dto;
 
-import org.seckill.entity.SuccessKilled;
 import org.seckill.enums.SeckillStateEnum;
 
 /**
@@ -22,7 +21,7 @@ public class SeckillExecution {
      */
     private String stateInfo;
 
-    private SuccessKilled successKilled;
+    private SuccessKilledDto successKilledDto;
 
     public long getSeckillId() {
         return seckillId;
@@ -48,14 +47,13 @@ public class SeckillExecution {
         this.stateInfo = stateInfo;
     }
 
-    public SuccessKilled getSuccessKilled() {
-        return successKilled;
+    public SuccessKilledDto getSuccessKilledDto() {
+        return successKilledDto;
     }
 
-    public void setSuccessKilled(SuccessKilled successKilled) {
-        this.successKilled = successKilled;
+    public void setSuccessKilledDto(SuccessKilledDto successKilledDto) {
+        this.successKilledDto = successKilledDto;
     }
-
 
     public SeckillExecution(long seckillId, SeckillStateEnum statEnum) {
         this.seckillId = seckillId;
@@ -63,11 +61,11 @@ public class SeckillExecution {
         this.stateInfo = statEnum.getStateInfo();
     }
 
-    public SeckillExecution(long seckillId, SeckillStateEnum statEnum, SuccessKilled successKilled) {
+    public SeckillExecution(long seckillId, SeckillStateEnum statEnum, SuccessKilledDto successKilledDto) {
         this.seckillId = seckillId;
         this.state = statEnum.getState();
         this.stateInfo = statEnum.getStateInfo();
-        this.successKilled = successKilled;
+        this.successKilledDto = successKilledDto;
     }
 
     @Override
@@ -76,7 +74,7 @@ public class SeckillExecution {
                 "seckillId=" + seckillId +
                 ", state=" + state +
                 ", stateInfo='" + stateInfo + '\'' +
-                ", successKilled=" + successKilled +
+                ", successKilledDto=" + successKilledDto +
                 '}';
     }
 }

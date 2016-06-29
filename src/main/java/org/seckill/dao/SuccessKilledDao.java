@@ -3,8 +3,6 @@ package org.seckill.dao;
 import org.apache.ibatis.annotations.Param;
 import org.seckill.entity.SuccessKilled;
 
-import java.util.Date;
-
 /**
  * 秒杀明细操作对象
  * Created by never615 on 6/16/16.

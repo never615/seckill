@@ -1,12 +1,17 @@
-package org.seckill.entity;
+package org.seckill.dto;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 团购商品model
  * Created by never615 on 6/22/16.
  */
-public class GroupBuying {
+public class GroupBuyingDto {
+    /**
+     * 图片地址
+     */
+    private List<String> imageUrls;
 
     /**
      * 团购商品id
@@ -80,6 +85,15 @@ public class GroupBuying {
      * 更新时间
      */
     private Date updatedAt;
+
+
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
+    }
 
     public long getId() {
         return id;
@@ -185,6 +199,14 @@ public class GroupBuying {
         this.remain = remain;
     }
 
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
     public Date getStartTime() {
         return startTime;
     }
@@ -217,18 +239,11 @@ public class GroupBuying {
         this.updatedAt = updatedAt;
     }
 
-    public String getDetails() {
-        return details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
-    }
-
     @Override
     public String toString() {
-        return "GroupBuying{" +
-                "id=" + id +
+        return "GroupBuyingDto{" +
+                "imageUrls=" + imageUrls +
+                ", id=" + id +
                 ", merchantId=" + merchantId +
                 ", name='" + name + '\'' +
                 ", logo='" + logo + '\'' +

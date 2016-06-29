@@ -15,7 +15,7 @@ public class Seckill {
     /**
      * 店铺id
      */
-    private long merchatId;
+    private long merchantId;
     /**
      * 秒杀商品的名字
      */
@@ -32,6 +32,10 @@ public class Seckill {
      * 秒杀所需要的积分
      */
     private long integral;
+    /**
+     * 原价积分
+     */
+    private long originalIntegral;
     /**
      * 是否审核通过
      */
@@ -79,12 +83,12 @@ public class Seckill {
         this.id = id;
     }
 
-    public long getMerchatId() {
-        return merchatId;
+    public long getMerchantId() {
+        return merchantId;
     }
 
-    public void setMerchatId(long merchatId) {
-        this.merchatId = merchatId;
+    public void setMerchantId(long merchantId) {
+        this.merchantId = merchantId;
     }
 
     public String getName() {
@@ -201,21 +205,30 @@ public class Seckill {
         this.details = details;
     }
 
+    public long getOriginalIntegral() {
+        return originalIntegral;
+    }
+
+    public void setOriginalIntegral(long originalIntegral) {
+        this.originalIntegral = originalIntegral;
+    }
+
     @Override
     public String toString() {
         return "Seckill{" +
                 "id=" + id +
-                ", merchatId=" + merchatId +
+                ", merchantId=" + merchantId +
                 ", name='" + name + '\'' +
                 ", logo='" + logo + '\'' +
                 ", describe='" + describe + '\'' +
                 ", integral=" + integral +
+                ", originalIntegral=" + originalIntegral +
                 ", examine=" + examine +
                 ", publish=" + publish +
                 ", images='" + images + '\'' +
                 ", total=" + total +
                 ", remain=" + remain +
-                ", details=" + details +
+                ", details='" + details + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", createdAt=" + createdAt +

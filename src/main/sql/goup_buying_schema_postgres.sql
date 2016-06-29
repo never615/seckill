@@ -1,7 +1,7 @@
 --------------------- 1.团购商品表----------------------
 CREATE TABLE group_buyings(
   id                SERIAL,
-  merchat_id        INTEGER      REFERENCES merchants,
+  merchant_id        INTEGER      REFERENCES merchants,
   name              VARCHAR      NOT NULL,
   logo              VARCHAR,
   describe          VARCHAR,
@@ -39,7 +39,7 @@ VALUES
 -- 表注释
 COMMENT ON TABLE group_buyings IS '团购商品表';
 COMMENT ON COLUMN group_buyings.id IS '团购商品的id';
-COMMENT ON COLUMN group_buyings.merchat_id IS '团购商品关联的店铺';
+COMMENT ON COLUMN group_buyings.merchant_id IS '团购商品关联的店铺';
 COMMENT ON COLUMN group_buyings.name IS '团购商品的名称';
 COMMENT ON COLUMN group_buyings.logo IS '团购商品的logo';
 COMMENT ON COLUMN group_buyings.describe IS '团购商品的描述';
