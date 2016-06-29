@@ -1,5 +1,6 @@
 package org.seckill.service;
 
+import org.seckill.dto.GroupBuyingDto;
 import org.seckill.dto.GroupBuyingExecution;
 import org.seckill.entity.GroupBuying;
 import org.seckill.exception.GroupBuyingCloseException;
@@ -23,7 +24,7 @@ public interface GroupBuyingService {
      * @param limit  限制
      * @return 团购商品列表
      */
-    List<GroupBuying> getGroupBuyingList(long offset, long limit);
+    List<GroupBuyingDto> getGroupBuyingList(long offset, long limit);
 
     /**
      * 查询单个团购商品
@@ -31,7 +32,7 @@ public interface GroupBuyingService {
      * @param id 商品id
      * @return 团购商品
      */
-    GroupBuying getById(long id);
+    GroupBuyingDto getById(long id);
 
     /**
      * 执行团购操作

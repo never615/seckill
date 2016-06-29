@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.postgresql.util.Base64;
 import org.seckill.dto.ApiResult;
+import org.seckill.dto.GroupBuyingDto;
 import org.seckill.dto.GroupBuyingExecution;
-import org.seckill.entity.GroupBuying;
 import org.seckill.enums.GroupBuyingStateEnum;
 import org.seckill.enums.RequestStateEnum;
 import org.seckill.exception.GroupBuyingCloseException;
@@ -67,11 +67,11 @@ public class GroupBuyingController {
         if (groupBuyingId == null) {
             return "redirect:/groupbuying/list";
         }
-        GroupBuying groupBuying = groupBuyingService.getById(groupBuyingId);
-        if (groupBuying == null) {
+        GroupBuyingDto groupBuyingDto = groupBuyingService.getById(groupBuyingId);
+        if (groupBuyingDto == null) {
             return "forward:/groupbuying/list";
         }
-        model.addAttribute("groupbuying", groupBuying);
+        model.addAttribute("groupbuying", groupBuyingDto);
         return "groupbuying/detail";
     }
 

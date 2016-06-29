@@ -1,6 +1,7 @@
 package org.seckill.service;
 
 import org.seckill.dto.Exposer;
+import org.seckill.dto.SeckillDto;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.entity.Seckill;
 
@@ -22,7 +23,7 @@ public interface SeckillService {
      * @param limit  请求的数量
      * @return
      */
-    List<Seckill> getSeckillList(long offset, long limit);
+    List<SeckillDto> getSeckillList(long offset, long limit);
 
 
     /**
@@ -31,7 +32,7 @@ public interface SeckillService {
      * @param seckillId 秒杀id
      * @return 秒杀对象
      */
-    Seckill getById(long seckillId);
+    SeckillDto getById(long seckillId);
 
 
     /**

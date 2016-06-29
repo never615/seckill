@@ -30,7 +30,7 @@
     <select id="queryAll" resultType="GroupBuying">
         SELECT *
         FROM group_buyings
-        WHERE examine = TRUE AND publish = TRUE AND group_buyings.end_time <![CDATA[<=]]> now()
+        WHERE examine = TRUE AND publish = TRUE AND group_buyings.end_time <![CDATA[>=]]> now()
         ORDER BY created_at DESC
         LIMIT #{limit}
         OFFSET #{offset}

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.postgresql.util.Base64;
 import org.seckill.dto.ApiResult;
 import org.seckill.dto.Exposer;
+import org.seckill.dto.SeckillDto;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.entity.Seckill;
 import org.seckill.enums.RequestStateEnum;
@@ -64,11 +65,11 @@ public class SeckillController {
         if (seckillId == null) {
             return "redirect:/seckill/list";
         }
-        Seckill seckill = seckillService.getById(seckillId);
-        if (seckill == null) {
+        SeckillDto seckillDto = seckillService.getById(seckillId);
+        if (seckillDto == null) {
             return "forward:/seckill/list";
         }
-        model.addAttribute("seckill", seckill);
+        model.addAttribute("seckill", seckillDto);
         return "seckill/detail";
     }
 
@@ -119,10 +120,6 @@ public class SeckillController {
 
             if (userService.isUserExist(userId)) {
                 SeckillExecution seckillExecution = seckillService.executeSeckillProcedure(seckillId, userId, md5);
-
-//                for (String s : seckillExecution.getSuccessKilledDto().getSeckillDto().getImageUrls()) {
-//                    System.out.println("地址:"+s);
-//                }
 
                 return new ApiResult<SeckillExecution>(RequestStateEnum.SUCCESS, seckillExecution);
             } else {

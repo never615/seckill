@@ -3,8 +3,10 @@ package org.seckill.service.impl;
 import org.seckill.dao.GroupBuyingDao;
 import org.seckill.dao.SuccessGroupBuyingDao;
 import org.seckill.dao.UserDao;
+import org.seckill.dto.GroupBuyingDto;
 import org.seckill.dto.GroupBuyingExecution;
 import org.seckill.dto.SuccessGroupBuyingDto;
+import org.seckill.dto.mapper.GroupBuyingDtoMapper;
 import org.seckill.dto.mapper.SuccessGroupBuyingDtoMapper;
 import org.seckill.entity.GroupBuying;
 import org.seckill.entity.SuccessGroupBuying;
@@ -33,15 +35,16 @@ public class GroupBuyingServiceImpl implements GroupBuyingService {
     @Autowired SuccessGroupBuyingDao successGroupBuyingDao;
     @Autowired UserDao userDao;
     @Autowired SuccessGroupBuyingDtoMapper successGroupBuyingDtoMapper;
+    @Autowired GroupBuyingDtoMapper groupBuyingDtoMapper;
 
     @Override
-    public List<GroupBuying> getGroupBuyingList(long offset, long limit) {
-        return groupBuyingDao.queryAll(offset, limit);
+    public List<GroupBuyingDto> getGroupBuyingList(long offset, long limit) {
+        return groupBuyingDtoMapper.mapperList(groupBuyingDao.queryAll(offset, limit));
     }
 
     @Override
-    public GroupBuying getById(long id) {
-        return groupBuyingDao.queryById(id);
+    public GroupBuyingDto getById(long id) {
+        return groupBuyingDtoMapper.mapper(groupBuyingDao.queryById(id));
     }
 
     @Override
