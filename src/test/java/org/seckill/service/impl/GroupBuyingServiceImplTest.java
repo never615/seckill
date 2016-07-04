@@ -42,7 +42,7 @@ public class GroupBuyingServiceImplTest {
 
     @Test
     public void testExecuteGroupBuying() throws Exception {
-        long groupBuyingId = 1000;
+        long groupBuyingId = 1003;
         long userId = 713;
         GroupBuyingExecution groupBuyingExecution = groupBuyingService.executeGroupBuying(groupBuyingId, userId);
         System.out.println(groupBuyingExecution);

@@ -104,7 +104,7 @@ public class SeckillServiceImpl implements SeckillService {
 
 
         //生成核销码
-        String verificationCode = AppUtils.createVerificationCode("3", userId, seckillId);
+        String verificationCode = AppUtils.createVerificationCode("2", userId, seckillId);
 
 
         Date killTime = new Date();
