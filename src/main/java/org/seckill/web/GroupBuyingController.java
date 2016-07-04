@@ -90,57 +90,35 @@ public class GroupBuyingController {
 
         // FIXME: 6/20/16 token校验待完成
         String[] tokens = authorization.split("\\.");
-        String json = new String(Base64.decode(tokens[1])) + "\"}";
+        String json = new String(Base64.decode(tokens[1])) + "}";
 
-        String[] split = json.split(":");
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        long userId=Long.valueOf(split[1]);
-        if (userService.isUserExist(userId)) {
-            try {
-                GroupBuyingExecution groupBuyingExecution = groupBuyingService.executeGroupBuying(groupbuyingId, userId);
-                return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, groupBuyingExecution);
-            } catch (GroupBuyingCloseException e) {
-                return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.END));
-            } catch (OutOfGroupBuyingLimitException e) {
-                return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.OUT_LIMIT));
-            } catch (GroupBuyingException e) {
-                return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.INNER_ERROR));
-            } catch (UserIntegralNotEnoughException e) {
-                return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.FAIL_REDUCE_INTEGRAL));
+
+        try {
+            JsonNode jsonNode = objectMapper.readTree(json);
+            long userId = jsonNode.get("sub").asLong();
+
+            if (userService.isUserExist(userId)) {
+                try {
+                    GroupBuyingExecution groupBuyingExecution = groupBuyingService.executeGroupBuying(groupbuyingId, userId);
+                    return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, groupBuyingExecution);
+                } catch (GroupBuyingCloseException e) {
+                    return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.END));
+                } catch (OutOfGroupBuyingLimitException e) {
+                    return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.OUT_LIMIT));
+                } catch (GroupBuyingException e) {
+                    return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.INNER_ERROR));
+                } catch (UserIntegralNotEnoughException e) {
+                    return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.FAIL_REDUCE_INTEGRAL));
+                }
+            } else {
+                //用户不存在
+                return new ApiResult<GroupBuyingExecution>(RequestStateEnum.USER_INEXISTENCE);
             }
-        } else {
-            //用户不存在
-            return new ApiResult<GroupBuyingExecution>(RequestStateEnum.USER_INEXISTENCE);
+        } catch (IOException e) {
+            return new ApiResult<GroupBuyingExecution>(RequestStateEnum.TOKEN_EXCEPTION);
         }
-
-
-//        ObjectMapper objectMapper = new ObjectMapper();
-
-
-//        try {
-//            JsonNode jsonNode = objectMapper.readTree(json);
-//            long userId = jsonNode.get("sub").asLong();
-//
-//            if (userService.isUserExist(userId)) {
-//                try {
-//                    GroupBuyingExecution groupBuyingExecution = groupBuyingService.executeGroupBuying(groupbuyingId, userId);
-//                    return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, groupBuyingExecution);
-//                } catch (GroupBuyingCloseException e) {
-//                    return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.END));
-//                } catch (OutOfGroupBuyingLimitException e) {
-//                    return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.OUT_LIMIT));
-//                } catch (GroupBuyingException e) {
-//                    return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.INNER_ERROR));
-//                } catch (UserIntegralNotEnoughException e) {
-//                    return new ApiResult<GroupBuyingExecution>(RequestStateEnum.SUCCESS, new GroupBuyingExecution(GroupBuyingStateEnum.FAIL_REDUCE_INTEGRAL));
-//                }
-//            } else {
-//                //用户不存在
-//                return new ApiResult<GroupBuyingExecution>(RequestStateEnum.USER_INEXISTENCE);
-//            }
-//        } catch (IOException e) {
-//            return new ApiResult<GroupBuyingExecution>(RequestStateEnum.TOKEN_EXCEPTION);
-//        }
     }
 
     /**

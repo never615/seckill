@@ -109,38 +109,26 @@ public class SeckillController {
 
         // FIXME: 6/20/16 token校验待完成
         String[] tokens = authorization.split("\\.");
-        String json = new String(Base64.decode(tokens[1])) + "\"}";
-        String[] split = json.split(":");
+        String json = new String(Base64.decode(tokens[1])) + "}";
 
-        long userId=Long.valueOf(split[1]);
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        if (userService.isUserExist(userId)) {
-            SeckillExecution seckillExecution = seckillService.executeSeckillProcedure(seckillId, userId, md5);
 
-            return new ApiResult<SeckillExecution>(RequestStateEnum.SUCCESS, seckillExecution);
-        } else {
-            //用户不存在
-            return new ApiResult<SeckillExecution>(RequestStateEnum.USER_INEXISTENCE);
+        try {
+            JsonNode jsonNode = objectMapper.readTree(json);
+            long userId = jsonNode.get("sub").asLong();
+
+            if (userService.isUserExist(userId)) {
+                SeckillExecution seckillExecution = seckillService.executeSeckillProcedure(seckillId, userId, md5);
+
+                return new ApiResult<SeckillExecution>(RequestStateEnum.SUCCESS, seckillExecution);
+            } else {
+                //用户不存在
+                return new ApiResult<SeckillExecution>(RequestStateEnum.USER_INEXISTENCE);
+            }
+        } catch (IOException e) {
+            return new ApiResult<SeckillExecution>(RequestStateEnum.TOKEN_EXCEPTION);
         }
-
-//        ObjectMapper objectMapper = new ObjectMapper();
-//
-//
-//        try {
-//            JsonNode jsonNode = objectMapper.readTree(json);
-//            long userId = jsonNode.get("sub").asLong();
-//
-//            if (userService.isUserExist(userId)) {
-//                SeckillExecution seckillExecution = seckillService.executeSeckillProcedure(seckillId, userId, md5);
-//
-//                return new ApiResult<SeckillExecution>(RequestStateEnum.SUCCESS, seckillExecution);
-//            } else {
-//                //用户不存在
-//                return new ApiResult<SeckillExecution>(RequestStateEnum.USER_INEXISTENCE);
-//            }
-//        } catch (IOException e) {
-//            return new ApiResult<SeckillExecution>(RequestStateEnum.TOKEN_EXCEPTION);
-//        }
     }
 
     /**
