@@ -1,3 +1,4 @@
+<%@ page import="java.util.Enumeration" %>
 <%@page contentType="text/html; charset=UTF-8" language="java" %>
 <%@include file="../common/tag.jsp"%>
 <!DOCTYPE html>
@@ -5,6 +6,7 @@
 <head>
   <title>掌上秒杀</title>
   <%@include file="../common/head.jsp" %>
+    <link rel="stylesheet" type="text/css" href="../../resource/css/seckill.css" />
 </head>
 <body>
 <header class="header-title  top-fixed">
@@ -20,7 +22,7 @@
             <c:forEach items="${list}" var="sk">
             <a class="weui_cell" href="${sk.id}/detail">
                 <div class="weui_cell_hd" >
-                    <img src="${sk.logo}" alt="icon">
+                    <img src="${sk.logo}" alt="logo">
                 </div>
                 <div class="weui_cell_content">
                     <div class="seckill-dis skill-content">
@@ -34,16 +36,23 @@
                                 <span class="price">${sk.integral}</span>
                                     <span style="color: #232326;font-size: 12px;">积分</span>
                             </div>
-
                                 <c:if test="${sk.remain <= 0}">
                                     <div class="seckill_button seckill_background_grey">
                                      秒杀完
                                     </div>
                                 </c:if>
                                 <c:if test="${sk.remain > 0}">
-                                    <div class="seckill_button">
-                                        去秒杀
-                                    </div>
+                                        <c:if test="${sk.startTime.time <= System.currentTimeMillis()}">
+                                            <div class="seckill_button">
+                                                去秒杀
+                                            </div>
+                                        </c:if>
+                                    <c:if test="${sk.startTime.time > System.currentTimeMillis()}">
+                                        <div class="seckill_button seckill_background_grey">
+                                            待秒杀
+                                        </div>
+                                    </c:if>
+
                                 </c:if>
                         </div>
                         <div class="seckill_dprice_remain">
@@ -70,52 +79,49 @@
 </article>
 
 
-  <%--<div class="container">--%>
-    <%--<div class="panel panel-default">--%>
-      <%--<div class="panel-heading text-center">--%>
-        <%--<h2>掌上秒杀</h2>--%>
-      <%--</div>--%>
-      <%--<div class="panel-body">--%>
-        <%--<table class="table table-hover">--%>
-          <%--<thead>--%>
-            <%--<tr>--%>
-              <%--<th>名称</th>--%>
-              <%--<th>库存</th>--%>
-              <%--<th>开始时间</th>--%>
-              <%--<th>结束时间</th>--%>
-              <%--<th>创建时间</th>--%>
-              <%--<th>详情页</th>--%>
-            <%--</tr>--%>
-          <%--</thead>--%>
-          <%--<tbody>--%>
-            <%--<c:forEach items="${list}" var="sk">--%>
-            <%--<tr>--%>
-              <%--<td>${sk.name}</td>--%>
-              <%--<td>${sk.remain}</td>--%>
-              <%--<td>--%>
-                <%--<fmt:formatDate value="${sk.startTime}" pattern="yyyy-MM-dd HH:mm:ss" />--%>
-              <%--</td>--%>
-              <%--<td>--%>
-                <%--<fmt:formatDate value="${sk.endTime}" pattern="yyyy-MM-dd HH:mm:ss" />--%>
-              <%--</td>--%>
-              <%--<td>--%>
-                <%--<fmt:formatDate value="${sk.createdAt}" pattern="yyyy-MM-dd HH:mm:ss" />--%>
-              <%--</td>--%>
-              <%--<td><a class="btn btn-info" href="${sk.id}/detail" target="_blank">详情</a></td>--%>
-            <%--</tr>--%>
-            <%--</c:forEach>--%>
-          <%--</tbody>--%>
-        <%--</table>--%>
-
-      <%--</div>--%>
-    <%--</div>--%>
-  <%--</div>--%>
-
-
-
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
   <script src="../../resource/dist/lib/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
   <script src="../../resource/dist/js/jquery-weui.min.js" type="text/javascript" charset="utf-8"></script>
-  <script src="../../resource/script/seckilllist.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+        //初始化布局
+        (function () {
+            var width = window.innerWidth;
+            console.log(width);
+            $("html").css("width",width+"px");
+            $(".weui_cell_content").css("width",width-130+'px');
+        })();
+        //检测token 以及app
+        (function() {
+            $.getUrlParam = function(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return decodeURI(r[2]);
+                return null;
+            }
+        }());
+        var  token = $.getUrlParam("token");
+        if (!token) {
+            token = <% out.println(request.getHeader("X-MALLTO-AUTHORIZATION")); %>;
+        }
+        var app =  <% out.println(request.getHeader("X-MALLTO-SYSTEM")); %>;
+
+        if (token && app) {
+            $(".weui_cell").each(function () {
+                this.href += ("?token="+token+"&app="+app);
+            });
+        } else if (token) {
+            $(".weui_cell").each(function () {
+                this.href += ("?token="+token);
+            });
+        } else if (app) {
+            $(".weui_cell").each(function () {
+                this.href += ("?app="+app);
+            });
+        }
+
+
+    })
+</script>
 </body>
 </html>

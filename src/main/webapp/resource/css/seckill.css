@@ -78,7 +78,7 @@ body{
 .seckill_price {
 	display: inline-block;
 	width: 50%;
-	padding: 3px 0px;
+	padding: 5px 0px;
 	color: #f23030;
 	font-size: 16px;
 }
@@ -90,13 +90,11 @@ body{
 	width: 35%;
 	float: right;
 	text-align: center;
-	border: 1px solid #f15353 ;
-	padding: 3px 0px;
+	padding: 5px 0px;
 	background-color: #f23030;
 	color: #fff;
 	
 }
-
 .seckill_dprice_remain {
 	height: 40%;
 	position: relative;
@@ -134,6 +132,6 @@ body{
 	text-align: left;
 }
 .seckill_background_grey{
-	background-color:#fff;
-	color:#f15353;
+	background-color:#cccccc;
+	color:#fff;
 }

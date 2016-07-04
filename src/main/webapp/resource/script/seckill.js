@@ -1,5 +1,27 @@
 //存放主要交互逻辑的js代码
 // javascript 模块化(package.类.方法)
+//检测微信平台
+var isWx = function() {
+    var userAgent = navigator.userAgent.toLowerCase();
+    var result = userAgent.match(/micromessenger/)
+    if (result) {
+        return true;
+    } else {
+        return false;
+    }
+}
+//获取token
+
+(function() {
+    $.getUrlParam = function(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return decodeURI(r[2]);
+        return null;
+    }
+}());
+var token = $.getUrlParam("token");
+var app = $.getUrlParam("app");
 
 var seckill = {
 
@@ -8,85 +30,78 @@ var seckill = {
         now: function () {
             return '/seckill/time/now';
         },
+        //获取秒杀地址及其它信息
         exposer: function (seckillId) {
             return '/seckill/' + seckillId + '/exposer';
         },
+        //秒杀地址
         execution: function (seckillId, md5) {
             return '/seckill/' + seckillId + '/' + md5 + '/execution';
         }
     },
-
-    //验证手机号
-    validatePhone: function (phone) {
-        if (phone && phone.length == 11 && !isNaN(phone)) {
-            return true;//直接判断对象会看对象是否为空,空就是undefine就是false; isNaN 非数字返回true
-        } else {
-            return false;
-        }
-    },
-
     //详情页秒杀逻辑
     detail: {
         //详情页初始化
         init: function (params) {
-            //手机验证和登录,计时交互
-            //规划我们的交互流程
-            //在cookie中查找手机号
-            //var userPhone = $.cookie('userPhone');
-
-
-
-            ////验证手机号
-            //if (!seckill.validatePhone(userPhone)) {
-            //    //绑定手机 控制输出
-            //    var killPhoneModal = $('#killPhoneModal');
-            //    killPhoneModal.modal({
-            //        show: true,//显示弹出层
-            //        backdrop: 'static',//禁止位置关闭
-            //        keyboard: false//关闭键盘事件
-            //    });
-            //
-            //    $('#killPhoneBtn').click(function () {
-            //        var inputPhone = $('#killPhoneKey').val();
-            //        console.log("inputPhone: " + inputPhone);
-            //        if (seckill.validatePhone(inputPhone)) {
-            //            //电话写入cookie(7天过期)
-            //            $.cookie('userPhone', inputPhone, {expires: 7, path: '/seckill'});
-            //            //验证通过　　刷新页面
-            //            window.location.reload();
-            //        } else {
-            //            //todo 错误文案信息抽取到前端字典里
-            //            $('#killPhoneMessage').hide().html('<label class="label label-danger">手机号错误!</label>').show(300);
-            //        }
-            //    });
-            //}
-
-            //已经登录
-            //计时交互
             var startTime = params['startTime'];
             var endTime = params['endTime'];
             var seckillId = params['seckillId'];
-            $.get(seckill.URL.now(), {}, function (result) {
-                if (result && result['code']==0) {
-                    var nowTime = result['data'];
-                    //时间判断 计时交互
-                    seckill.countDown(seckillId, nowTime, startTime, endTime);
-                } else {
-                    console.log('result: ' + result);
-                    alert('result: ' + result['msg']);
+
+            //秒杀倒计时
+            $.ajax({
+                type: "GET",
+                url: seckill.URL.now(),
+                async: true,
+                success: function (result) {
+                    if (result && result['code'] == 0) {
+                        var nowTime = result['data'];
+                        //秒杀倒计时
+                        var toEnd = (endTime - nowTime) / 1000;
+                        var toStart = (startTime - nowTime) / 1000;
+                        if (toStart > 0) {
+                            seckill.timer(toStart);
+                        } else {
+                            seckill.timer(toEnd);
+                        }
+
+                    } else {
+                        console.log('result: ' + result);
+                        $.alert('result: ' + result['msg']);
+                    }
                 }
-            });
+            })
+
+
         }
     },
-
+    //倒计时传入倒计时秒数
+    timer: function (intDiff) {
+        window.setInterval(function () {
+            var day = 0,
+                hour = 0,
+                minute = 0,
+                second = 0; //时间默认值
+            if (intDiff > 0) {
+                day = Math.floor(intDiff / (60 * 60 * 24));
+                hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+                minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+                second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+            }
+            if (minute <= 9) minute = '0' + minute;
+            if (second <= 9) second = '0' + second;
+            $('#day_show').html(day + "天");
+            $('#hour_show').html('<s id="h"></s>' + hour);
+            $('#minute_show').html('<s></s>' + minute);
+            $('#second_show').html('<s></s>' + second);
+            intDiff--;
+        }, 1000);
+    },
     //执行秒杀
-    handlerSeckill: function (seckillId, node) {
+    handlerSeckill: function (seckillId) {
         //获取秒杀地址,控制显示器,执行秒杀
-        node.hide().html('<button class="btn btn-primary btn-lg" id="killBtn">开始秒杀</button>');
-
         $.get(seckill.URL.exposer(seckillId), {}, function (result) {
-            //在回调函数种执行交互流程
-            if (result && result['code']==0) {
+            //在回调函数中执行交互流程
+            if (result && result['code'] == 0) {
                 var exposer = result['data'];
                 if (exposer['exposed']) {
                     //开启秒杀
@@ -95,86 +110,82 @@ var seckill = {
                     var killUrl = seckill.URL.execution(seckillId, md5);
                     console.log("killUrl: " + killUrl);
                     //绑定一次点击事件
-                    $('#killBtn').one('click', function () {
+                    $('#directorder').on('click', function () {
+                        //检测是否存在token
+                        if (!token){
+                            if (isWx) {
+                                $.alert("获取微信用户信息失败！");
+                                return;
+                            } else if (app) {
+                                var href = location.href;
+                                href = "zh-login://+" + href;
+                                console.log(href);
+                                location.href = href;
+                                return;
+
+                            } else {
+                                console.log("非微信非app");
+                                //进入app下载地址
+                                window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.mallto.seaworld";
+                                return;
+                            }
+                            //微信或者app
+                        }
                         //执行秒杀请求
                         //1.先禁用按钮
-                        $(this).addClass('disabled');//,<-$(this)===('#killBtn')->
                         //2.发送秒杀请求执行秒杀
-
-
                         $.ajax({
-                            method:"POST",
-                            url:killUrl,
+                            method: "POST",
+                            url: killUrl,
                             //todo 测试header
-                            headers:{
-                                Authorization:'Bearer{eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjcxMywiaXNzIjoiaHR0cDpcL1wvYXBpLmlmZW5nZ3VvLmNvbTo4MVwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTQ2NjEzNzUyNiwiZXhwIjoxNDczOTEzNTI2LCJuYmYiOjE0NjYxMzc1MjYsImp0aSI6ImEyZDhiMzkxODY4MjU2NzQ5YWY5Yzk5NmQwNDYxYmIxIn0.wfvVmWE9zaEQw-23aM7oQiXiPWwzDubMcG5rsB2ns-4}'
+                            headers: {
+                                Authorization: 'Bearer{eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjcxMywiaXNzIjoiaHR0cDpcL1wvYXBpLmlmZW5nZ3VvLmNvbTo4MVwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTQ2NjEzNzUyNiwiZXhwIjoxNDczOTEzNTI2LCJuYmYiOjE0NjYxMzc1MjYsImp0aSI6ImEyZDhiMzkxODY4MjU2NzQ5YWY5Yzk5NmQwNDYxYmIxIn0.wfvVmWE9zaEQw-23aM7oQiXiPWwzDubMcG5rsB2ns-4}'
                             },
-                            success:function(result){
-                                if (result && result['code']==0) {
+                            statusCode: {
+                                500: function () {
+                                    $.alert("服务器错误！");
+                                }
+                            },
+                            success: function (result) {
+                                if (result && result['code'] == 0) {
                                     var killResult = result['data'];
                                     var state = killResult['state'];
                                     var stateInfo = killResult['stateInfo'];
-                                    //显示秒杀结果
-                                    node.html('<span class="label label-success">' + stateInfo + '</span>');
-                                }else{
-                                    alert('result: ' + result['msg']);
+                                    if (state == 0) {
+                                        //跳转到秒杀成功界面
+                                        window.location.href = "/";
+                                    } else {
+                                        //显示秒杀结果
+                                        $.alert(stateInfo);
+                                    }
+                                } else {
+                                    $.alert(result['msg']);
                                 }
                             }
-                        })
-                        ;
+                        });
 
-                        //$.post(killUrl, {}, function (result) {
-                        //    if (result && result['code']==0) {
-                        //        var killResult = result['data'];
-                        //        var state = killResult['state'];
-                        //        var stateInfo = killResult['stateInfo'];
-                        //        //显示秒杀结果
-                        //        node.html('<span class="label label-success">' + stateInfo + '</span>');
-                        //    }else{
-                        //        alert('result: ' + result['msg']);
-                        //    }
-                        //});
                     });
-                    node.show();
+
                 } else {
                     //未开启秒杀(浏览器计时偏差)
                     var now = exposer['now'];
                     var start = exposer['start'];
                     var end = exposer['end'];
-                    seckill.countDown(seckillId, now, start, end);
+                    var toStart = (start - now) / 1000;
+                    //进行浏览器时间校正
+                    seckill.timer(toStart);
+                    console.log("秒杀还未开始！");
+                    // $("#directorder").on("click",function () {
+                    //     $.alert("秒杀还未开始！","温馨提示");
+                    // })
                 }
             } else {
-                alert('result: ' + result['msg']);
-                console.log('result: ' + result['msg']);
+                $.alert(result['msg']);
             }
         });
 
-    },
-
-    //倒计时逻辑处理
-    countDown: function (seckillId, nowTime, startTime, endTime) {
-        console.log(seckillId + '_' + nowTime + '_' + startTime + '_' + endTime);
-        var seckillBox = $('#seckill-box');
-        if (nowTime > endTime) {
-            //秒杀结束
-            seckillBox.html('秒杀结束!');
-        } else if (nowTime < startTime) {
-            //秒杀未开始,计时事件绑定
-            var killTime = new Date(startTime + 1000);//todo 防止时间偏移
-            seckillBox.countdown(killTime, function (event) {
-                //时间格式
-                var format = event.strftime('秒杀倒计时: %D天 %H时 %M分 %S秒 ');
-                seckillBox.html(format);
-            }).on('finish.countdown', function () {
-                //时间完成后回调事件
-                //获取秒杀地址,控制现实逻辑,执行秒杀
-                console.log('______fininsh.countdown');
-                seckill.handlerSeckill(seckillId, seckillBox);
-            });
-        } else {
-            //秒杀开始
-            seckill.handlerSeckill(seckillId, seckillBox);
-        }
     }
 
 }
+
+

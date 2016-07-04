@@ -1,0 +1,52 @@
+body {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    overflow: hidden;
+}
+.header-title {
+    text-align: center;
+    font-size: 16px;
+    background-color: rgb(239, 239, 239);
+    border-bottom-color: rgb(191, 191, 191);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+.good-header{
+    height: 44px;
+    line-height: 44px;
+    width: 100%;
+}
+.message{
+    width: 150px;
+    margin: 50px auto;
+}
+.directors{
+    position: absolute;
+    bottom: 0px;
+    margin-bottom: 100px;
+    width: 100%;
+    padding-left: 10%;
+    font-size: 14px;
+}
+.director{
+    display: inline-block;
+    width: 35%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color:#f23030 ;
+    color: white;
+    border-radius: 5px;
+}
+.goon{
+    margin-left: 10%;
+}
+.my-card{
+    background-color:#cccccc ;
+    color: white;
+}
+.weui_icon_toast:before{
+    /*color: #f23030;*/
+}
+.weui_mask_transparent{
+    display: none;
+}

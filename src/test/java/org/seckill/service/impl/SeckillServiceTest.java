@@ -77,8 +77,13 @@ public class SeckillServiceTest {
     @Test
     public void testExportSeckillUrl() throws Exception {
         long id = 1000;
-        Exposer exposer = seckillService.exportSeckillUrl(id);
-        LOG.info("exposer={}", exposer.toString());
+        for (int i=0;i<=30;i++){
+            Exposer exposer = seckillService.exportSeckillUrl(id);
+            System.out.println(exposer);
+        }
+      //  Exposer exposer = seckillService.exportSeckillUrl(id);
+       // System.out.println(exposer);
+        //LOG.info("exposer={}", exposer.toString());
 //     Exposer{exposed=true, md5='be3d9cdd642d64f8ed97eb05e93b9628', seckillId=1000, now=0, start=0, end=0}
     }
 

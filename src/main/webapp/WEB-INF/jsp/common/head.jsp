@@ -3,7 +3,7 @@
 
 <link rel="stylesheet" type="text/css" href="../../resource/dist/lib/weui.min.css" />
 <link rel="stylesheet" type="text/css" href="../../resource/dist/css/jquery-weui.min.css" />
-<link rel="stylesheet" type="text/css" href="../../resource/css/seckill.css" />
+
 <!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
 <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
 <!--[if lt IE 9]>
