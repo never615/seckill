@@ -110,6 +110,7 @@ var seckill = {
                     var killUrl = seckill.URL.execution(seckillId, md5);
                     console.log("killUrl: " + killUrl);
                     //绑定一次点击事件
+                    token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjg3NSwiaXNzIjoiaHR0cDpcL1wvYXBpLmlmZW5nZ3VvLmNvbVwvd2VjaGF0X2F1dGhcL3B1YmxpY1wvaW5kZXgucGhwXC9zZWF3b3JsZF93ZWNoYXRcL3dlY2hhdF9hdXRoIiwiaWF0IjoxNDY3NjI5MTY3LCJleHAiOjE0NzU0MDUxNjcsIm5iZiI6MTQ2NzYyOTE2NywianRpIjoiNTI2ZmQzZjFjMjg0ZDZjMGExODQ3ZTU3MWI3YzUwMzkifQ.RjYWipP2NyHrdbaqkW9lx8tQD5dEFE_J70X-3PS4zmY';
                     $('#directorder').on('click', function () {
                         //检测是否存在token
                         if (!token){
@@ -129,7 +130,7 @@ var seckill = {
                                 window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.mallto.seaworld";
                                 return;
                             }
-                            //微信或者app
+                            //微信或者a
                         }
                         //执行秒杀请求
                         //1.先禁用按钮
@@ -139,7 +140,7 @@ var seckill = {
                             url: killUrl,
                             //todo 测试header
                             headers: {
-                                Authorization: 'Bearer{eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjcxMywiaXNzIjoiaHR0cDpcL1wvYXBpLmlmZW5nZ3VvLmNvbTo4MVwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTQ2NjEzNzUyNiwiZXhwIjoxNDczOTEzNTI2LCJuYmYiOjE0NjYxMzc1MjYsImp0aSI6ImEyZDhiMzkxODY4MjU2NzQ5YWY5Yzk5NmQwNDYxYmIxIn0.wfvVmWE9zaEQw-23aM7oQiXiPWwzDubMcG5rsB2ns-4}'
+                                Authorization: 'Bearer{'+token+'}'
                             },
                             statusCode: {
                                 500: function () {

@@ -23,7 +23,7 @@
   秒杀结果
 </header>
 <article>
-  <div class="message">秒杀成功，商品卷已经加入到我的卡包！</div>
+  <div class="message">购买成功，商品卷已经加入到我的卡包！</div>
   <div class="directors">
     <a href="http://api.ifengguo.com/seaapp/wx/card.html" class="my-card director">查看我的卡包</a><a href="javascript:;" class="goon director">继续看看</a>
   </div>

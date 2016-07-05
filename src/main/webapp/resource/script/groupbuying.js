@@ -86,19 +86,16 @@ var groupbuying = {
         }, 1000);
     },
     //执行团购
-    handlerGroupbuying: function (groupbuyingId) {
+    handlerGroupbuying: function (groupbuyingId, groupbuyingIntegral) {
         //获取团购地址,控制显示器,执行团购
 
         var buyingUrl = groupbuying.URL.execution(groupbuyingId);
         console.log("buyingUrl: " + buyingUrl);
-        //绑定一次点击事件
+        //绑定点击事件
         $('#directorder').on('click', function () {
             //检测平台与登录情况
-            // token=  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjg3NSwiaXNzIjoiaHR0cDpcL1wvYXBpLmlmZW5nZ3VvLmNvbVwvd2VjaGF0X2F1dGhcL3B1YmxpY1wvaW5kZXgucGhwXC9zZWF3b3JsZF93ZWNoYXRcL3dlY2hhdF9hdXRoIiwiaWF0IjoxNDY3NjI0NTEzLCJleHAiOjE0NzU0MDA1MTMsIm5iZiI6MTQ2NzYyNDUxMywianRpIjoiNmUwZmM3ZDliM2NlNWRiYjQ0N2RkMWE2M2Q4MmI4MmQifQ.OU7_p1egifcZx4CatwyiEok20BNAklYh0i31XoShL8g';
-            // token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjg3NSwiaXNzIjoiaHR0cDpcL1wvYXBpLmlmZW5nZ3VvLmNvbVwvd2VjaGF0X2F1dGhcL3B1YmxpY1wvaW5kZXgucGhwXC9zZWF3b3JsZF93ZWNoYXRcL3dlY2hhdF9hdXRoIiwiaWF0IjoxNDY3NjI0MzY5LCJleHAiOjE0NzU0MDAzNjksIm5iZiI6MTQ2NzYyNDM2OSwianRpIjoiN2JjZGMwZDg4MWUwMDM2ZjNmMGQ4YWUzNmI1NDg3NzUifQ.0_MuV18_paosTuL8Gvp62hML2cNowgP3VIgI1mrePAY';
-            // token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjcxMywiaXNzIjoiaHR0cDpcL1wvYXBpLmlmZW5nZ3VvLmNvbTo4MVwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTQ2NjEzNzUyNiwiZXhwIjoxNDczOTEzNTI2LCJuYmYiOjE0NjYxMzc1MjYsImp0aSI6ImEyZDhiMzkxODY4MjU2NzQ5YWY5Yzk5NmQwNDYxYmIxIn0.wfvVmWE9zaEQw-23aM7oQiXiPWwzDubMcG5rsB2ns-4';
-            token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjM1MSwiaXNzIjoiaHR0cDpcL1wvYXBpLmlmZW5nZ3VvLmNvbVwvd2VjaGF0X2F1dGhcL3B1YmxpY1wvaW5kZXgucGhwXC9zZWF3b3JsZF93ZWNoYXRcL3dlY2hhdF9hdXRoIiwiaWF0IjoxNDY3NjI0MDM0LCJleHAiOjE0NzU0MDAwMzQsIm5iZiI6MTQ2NzYyNDAzNCwianRpIjoiNGRiYTZhMTQyNGI0ZTk3ZGMzODg5NTMzNjRhYjc1YzEifQ.WGjngXYdlkbO2D5wyYUqtFxrYW74sesoOfhxOaI1d7A';
-            if (!token){
+            token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjg3NSwiaXNzIjoiaHR0cDpcL1wvYXBpLmlmZW5nZ3VvLmNvbVwvd2VjaGF0X2F1dGhcL3B1YmxpY1wvaW5kZXgucGhwXC9zZWF3b3JsZF93ZWNoYXRcL3dlY2hhdF9hdXRoIiwiaWF0IjoxNDY3NjI5MTY3LCJleHAiOjE0NzU0MDUxNjcsIm5iZiI6MTQ2NzYyOTE2NywianRpIjoiNTI2ZmQzZjFjMjg0ZDZjMGExODQ3ZTU3MWI3YzUwMzkifQ.RjYWipP2NyHrdbaqkW9lx8tQD5dEFE_J70X-3PS4zmY';
+            if (!token) {
                 if (isWx) {
                     $.alert("获取微信用户信息失败！");
                     return;
@@ -117,39 +114,42 @@ var groupbuying = {
                 }
                 //微信或者app
             }
-
-            //执行团购请求
-            $.ajax({
-                method: "POST",
-                url: buyingUrl,
-                //todo 测试header
-                headers: {
-                    Authorization: 'Bearer{'+token+'}'
-                },
-                statusCode: { 500:function () {
-                    $.alert("服务器错误！");
-                }
-                },
-                success: function (result,textStatus) {
-                    if (result && result['code'] == 0) {
-                        var buyingResult = result['data'];
-                        var state = buyingResult['state'];
-                        var stateInfo = buyingResult['stateInfo'];
-                        //显示团购结果
-                        if (state == 0) {
-                            //跳转到秒杀成功界面
-                            window.location.href = "/";
-                        } else if (state == 7001){
-                            //显示秒杀结果
-                            console.log(stateInfo);
-                        } else {
-                            $.alert(stateInfo);
+                //确认扣减积分
+            $.confirm(groupbuyingIntegral, "扣减积分", function () {
+                //执行团购请求
+                $.ajax({
+                    method: "POST",
+                    url: buyingUrl,
+                    headers: {
+                        Authorization: 'Bearer{' + token + '}'
+                    },
+                    statusCode: {
+                        500: function () {
+                            $.alert("服务器错误！");
                         }
-                    } else {
-                        $.alert(result['msg']);
+                    },
+                    success: function (result, textStatus) {
+                        if (result && result['code'] == 0) {
+                            var buyingResult = result['data'];
+                            var state = buyingResult['state'];
+                            var stateInfo = buyingResult['stateInfo'];
+                            //显示团购结果
+                            if (state == 0) {
+                                //跳转到秒杀成功界面
+                                window.location.href = "/";
+                            } else if (state == 7001) {
+                                //显示秒杀结果
+                                console.log(stateInfo);
+                            } else {
+                                $.alert(stateInfo);
+                            }
+                        } else {
+                            $.alert(result['msg']);
+                        }
                     }
-                }
+                });
             });
+
         });
     }
 };

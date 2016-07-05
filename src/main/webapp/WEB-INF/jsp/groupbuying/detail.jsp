@@ -135,7 +135,7 @@
             })
         }());
         //执行秒杀函数
-        groupbuying.handlerGroupbuying(${groupbuying.id});
+        groupbuying.handlerGroupbuying(${groupbuying.id},${groupbuying.integral});
 
     })
 </script>
