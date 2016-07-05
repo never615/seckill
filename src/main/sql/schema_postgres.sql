@@ -64,6 +64,7 @@ CREATE TABLE success_seckilleds (
   verification_code VARCHAR(255),
   exchange_time     TIMESTAMP(6),
   seckill_at        TIMESTAMP(6) NOT NULL,
+  account_id      INTEGER REFERENCES merchant_accounts,
   created_at       TIMESTAMP(6) NOT NULL DEFAULT current_date,
   updated_at       TIMESTAMP(6) NOT NULL DEFAULT current_date,
   PRIMARY KEY (seckill_id, user_id)
@@ -79,6 +80,7 @@ COMMENT ON COLUMN success_seckilleds.state IS '秒杀状态:  -1:无效,0:成功
 COMMENT ON COLUMN success_seckilleds.verification_code IS '核销码';
 COMMENT ON COLUMN success_seckilleds.exchange_time IS '核销时间';
 COMMENT ON COLUMN success_seckilleds.seckill_at IS '秒杀时间';
+COMMENT ON COLUMN success_seckilleds.account_id IS '处理核销账户的id';
 COMMENT ON COLUMN success_seckilleds.created_at IS '创建时间';
 COMMENT ON COLUMN success_seckilleds.updated_at IS '更新时间';
 

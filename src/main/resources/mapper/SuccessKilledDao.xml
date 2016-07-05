@@ -20,6 +20,8 @@
             sk.state,
             sk.seckill_at,
             sk.created_at,
+            sk.updated_at,
+            sk.account_id,
             s.id          "seckill.id",
             s.merchant_id  "seckill.merchant_id",
             s.name        "seckill.name",
