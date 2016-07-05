@@ -46,6 +46,19 @@ public class SuccessKilled {
      */
     private Date updatedAt;
 
+    /**
+     * 核销账户id
+     */
+    private long accountId;
+
+    public long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
+    }
+
     public Seckill getSeckill() {
         return seckill;
     }

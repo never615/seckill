@@ -68,6 +68,7 @@ CREATE TABLE success_group_buyings (
   verification_code VARCHAR(255) ,
   exchange_time TIMESTAMP(6) ,
   group_buying_at  TIMESTAMP(6) NOT NULL ,
+  account_id      INTEGER  REFERENCES merchant_accounts,
   created_at TIMESTAMP(6) NOT NULL DEFAULT current_date,
   updated_at      TIMESTAMP(6) NOT NULL DEFAULT current_date,
   PRIMARY KEY (id)
@@ -84,6 +85,7 @@ COMMENT ON COLUMN success_group_buyings.state IS '团购状态:  -1:无效,0:成
 COMMENT ON COLUMN success_group_buyings.verification_code IS '核销码';
 COMMENT ON COLUMN success_group_buyings.exchange_time IS '核销时间';
 COMMENT ON COLUMN success_group_buyings.group_buying_at IS '团购时间';
+COMMENT ON COLUMN success_group_buyings.account_id IS '处理核销账户的id';
 COMMENT ON COLUMN success_group_buyings.created_at IS '创建时间';
 COMMENT ON COLUMN success_group_buyings.updated_at IS '更新时间';
 
