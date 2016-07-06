@@ -130,7 +130,7 @@ var seckill = {
                                 window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.mallto.seaworld";
                                 return;
                             }
-                            //微信或者a
+                            //微信或者app
                         }
                         //执行秒杀请求
                         //1.先禁用按钮
