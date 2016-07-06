@@ -3,6 +3,8 @@ package org.seckill.dto.mapper;
 import org.seckill.dao.config.Config;
 import org.seckill.dto.SeckillDto;
 import org.seckill.entity.Seckill;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,8 @@ import java.util.List;
  */
 @Component
 public class SeckillDtoMapper {
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+
 
     @Autowired Config config;
     @Autowired MapperUtils mapperUtils;
@@ -26,6 +30,7 @@ public class SeckillDtoMapper {
         BeanUtils.copyProperties(seckill, seckillDto);
 
         String imagesStr = seckillDto.getImages();
+
         List<String> imageUrlList = mapperUtils.getImageUrlList(imagesStr);
         seckillDto.setImageUrls(imageUrlList);
 

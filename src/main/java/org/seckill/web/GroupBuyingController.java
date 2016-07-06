@@ -77,6 +77,17 @@ public class GroupBuyingController {
 
 
     /**
+     * 团购成功界面
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "success",method = RequestMethod.GET)
+    public String success(Model model){
+        return "groupbuying/success";
+    }
+
+
+    /**
      * 团购执行方法.
      *
      * @param groupbuyingId 团购商品ID
