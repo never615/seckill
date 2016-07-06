@@ -94,10 +94,10 @@ var groupbuying = {
         //绑定点击事件
         $('#directorder').on('click', function () {
             //检测平台与登录情况
-            token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjg3NSwiaXNzIjoiaHR0cDpcL1wvYXBpLmlmZW5nZ3VvLmNvbVwvd2VjaGF0X2F1dGhcL3B1YmxpY1wvaW5kZXgucGhwXC9zZWF3b3JsZF93ZWNoYXRcL3dlY2hhdF9hdXRoIiwiaWF0IjoxNDY3NjI5MTY3LCJleHAiOjE0NzU0MDUxNjcsIm5iZiI6MTQ2NzYyOTE2NywianRpIjoiNTI2ZmQzZjFjMjg0ZDZjMGExODQ3ZTU3MWI3YzUwMzkifQ.RjYWipP2NyHrdbaqkW9lx8tQD5dEFE_J70X-3PS4zmY';
+            // token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjg3NSwiaXNzIjoiaHR0cDpcL1wvYXBpLmlmZW5nZ3VvLmNvbVwvd2VjaGF0X2F1dGhcL3B1YmxpY1wvaW5kZXgucGhwXC9zZWF3b3JsZF93ZWNoYXRcL3dlY2hhdF9hdXRoIiwiaWF0IjoxNDY3NjI5MTY3LCJleHAiOjE0NzU0MDUxNjcsIm5iZiI6MTQ2NzYyOTE2NywianRpIjoiNTI2ZmQzZjFjMjg0ZDZjMGExODQ3ZTU3MWI3YzUwMzkifQ.RjYWipP2NyHrdbaqkW9lx8tQD5dEFE_J70X-3PS4zmY';
             if (!token) {
                 if (isWx) {
-                    $.alert("获取微信用户信息失败！");
+                    window.location = "http://api.ifengguo.com/wechat_auth/public/index.php/seaworld_wechat/wechat_auth?redirect="+location.href;
                     return;
                 } else if (app) {
                     var href = location.href;
@@ -136,7 +136,7 @@ var groupbuying = {
                             //显示团购结果
                             if (state == 0) {
                                 //跳转到秒杀成功界面
-                                window.location.href = "/";
+                                window.location.href = "/groupbuying/success";
                             } else if (state == 7001) {
                                 //显示秒杀结果
                                 console.log(stateInfo);

@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>秒杀成功</title>
+  <title>团购成功</title>
   <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="../../resource/dist/lib/weui.min.css" />
@@ -20,7 +20,7 @@
 </head>
 <body>
 <header class="good-header header-title">
-  秒杀结果
+  团购结果
 </header>
 <article>
   <div class="message">购买成功，商品卷已经加入到我的卡包！</div>
