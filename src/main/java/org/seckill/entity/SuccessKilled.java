@@ -8,6 +8,8 @@ import java.util.Date;
  */
 public class SuccessKilled {
 
+
+    private long id;
     /**
      * 一个秒杀seckill对应多个成功记录
      */
@@ -50,6 +52,14 @@ public class SuccessKilled {
      * 核销账户id
      */
     private long accountId;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public long getAccountId() {
         return accountId;

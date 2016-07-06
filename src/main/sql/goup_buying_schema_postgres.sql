@@ -1,3 +1,5 @@
+DROP TABLE success_group_buyings;
+DROP TABLE group_buyings;
 --------------------- 1.团购商品表----------------------
 CREATE TABLE group_buyings(
   id                SERIAL,
@@ -9,7 +11,7 @@ CREATE TABLE group_buyings(
   original_integral INTEGER ,
   examine           BOOL ,
   publish           BOOL         NOT NULL  DEFAULT FALSE,
-  images            VARCHAR,
+  images            JSON,
   "limit"           INTEGER      ,
   total             INTEGER      NOT NULL,
   remain            INTEGER      NOT NULL,

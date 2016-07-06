@@ -13,6 +13,7 @@
     <!-- SuccessKilled queryByIdWithSeckill(@Param("seckilledId") long seckilledId, @Param("userPhone") long userPhone);-->
     <select id="queryByIdWithSeckill" resultType="SuccessKilled">
         SELECT
+            sk.id,
             sk.seckill_id,
             sk.user_id,
             sk.verification_code,

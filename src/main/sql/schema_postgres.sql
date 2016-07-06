@@ -1,3 +1,6 @@
+DROP TABLE success_seckilleds;
+DROP TABLE seckills;
+
 --------------------- 1.秒杀商品表----------------------
 CREATE TABLE seckills (
   id          SERIAL,
@@ -9,7 +12,7 @@ CREATE TABLE seckills (
   original_integral INTEGER ,
   examine     BOOL         ,
   publish     BOOL         NOT NULL  DEFAULT FALSE,
-  images      VARCHAR,
+  images      JSON,
   total       INTEGER      NOT NULL,
   remain      INTEGER      NOT NULL,
   details     TEXT  ,
@@ -58,6 +61,7 @@ COMMENT ON COLUMN seckills.updated_at IS '更新时间';
 
 --------------------- 2.秒杀成功明细表 ----------------------
 CREATE TABLE success_seckilleds (
+  id          SERIAL,
   seckill_id        INTEGER      NOT NULL REFERENCES seckills,
   user_id           INTEGER      NOT NULL REFERENCES users,
   state             INT2         NOT NULL DEFAULT -1,
@@ -67,13 +71,15 @@ CREATE TABLE success_seckilleds (
   account_id      INTEGER REFERENCES merchant_accounts,
   created_at       TIMESTAMP(6) NOT NULL DEFAULT current_date,
   updated_at       TIMESTAMP(6) NOT NULL DEFAULT current_date,
-  PRIMARY KEY (seckill_id, user_id)
+--   PRIMARY KEY (id),
+  UNIQUE (seckill_id,user_id)
 );
 
 CREATE INDEX ON success_seckilleds (user_id);
 CREATE INDEX ON success_seckilleds (seckill_id);
 
 COMMENT ON TABLE success_seckilleds IS '秒杀成功明细表';
+COMMENT ON COLUMN success_seckilleds.id IS '秒杀成功条目的id';
 COMMENT ON COLUMN success_seckilleds.seckill_id IS '秒杀商品的id';
 COMMENT ON COLUMN success_seckilleds.user_id IS '用户id';
 COMMENT ON COLUMN success_seckilleds.state IS '秒杀状态:  -1:无效,0:成功';

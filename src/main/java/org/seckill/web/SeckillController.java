@@ -73,6 +73,16 @@ public class SeckillController {
         return "seckill/detail";
     }
 
+    /**
+     * 秒杀成功界面
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "success",method = RequestMethod.GET)
+    public String success(Model model){
+        return "seckill/success";
+    }
+
 
     /**
      * 暴露秒杀地址接口
