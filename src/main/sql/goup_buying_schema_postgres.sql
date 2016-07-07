@@ -28,7 +28,7 @@ CREATE INDEX ON group_buyings (end_time);
 CREATE INDEX ON group_buyings (created_at);
 
 
-ALTER SEQUENCE "public"."group_buyings_id_seq" RESTART 1000 OWNED BY "group_buyings"."id";
+ALTER SEQUENCE "public"."group_buyings_id_seq" RESTART 10000 OWNED BY "group_buyings"."id";
 
 -- 初始化数据
 INSERT INTO group_buyings (name,integral,original_integral,examine,publish,"limit",total,remain, start_time, end_time)
@@ -37,6 +37,7 @@ VALUES
   ('800元团购ipad',10,20,TRUE ,TRUE , 1,200,200, '2016-06-22 00:00:00', '2016-06-30 00:00:00'),
   ('6600元团购mac book pro',10,20,TRUE ,TRUE,5 ,300, 300, '2016-06-22 00:00:00', '2016-06-30 00:00:00'),
   ('7000元团购iMac',10,20,TRUE ,TRUE , NULL ,400,400, '2016-06-30 00:00:00', '2016-07-15 00:00:00');
+
 
 -- 表注释
 COMMENT ON TABLE group_buyings IS '团购商品表';
@@ -75,6 +76,9 @@ CREATE TABLE success_group_buyings (
   updated_at      TIMESTAMP(6) NOT NULL DEFAULT current_date,
   PRIMARY KEY (id)
 );
+
+ALTER SEQUENCE "public"."success_group_buyings_id_seq" RESTART 1000000000 OWNED BY "success_group_buyings"."id";
+
 
 CREATE INDEX ON success_group_buyings (user_id);
 CREATE INDEX ON success_group_buyings (group_buying_id);

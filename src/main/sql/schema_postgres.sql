@@ -75,6 +75,9 @@ CREATE TABLE success_seckilleds (
   UNIQUE (seckill_id,user_id)
 );
 
+ALTER SEQUENCE "public"."success_seckilleds_id_seq" RESTART 500000000 OWNED BY "success_seckilleds"."id";
+
+
 CREATE INDEX ON success_seckilleds (user_id);
 CREATE INDEX ON success_seckilleds (seckill_id);
 
