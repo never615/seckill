@@ -56,8 +56,18 @@ public class SeckillServiceImpl implements SeckillService {
 
 
     @Override
-    public List<SeckillDto> getSeckillList(long offset, long limit) {
-        List<Seckill> seckills = seckillDao.queryAll(offset, limit);
+    public List<SeckillDto> getSeckillList(Long merchantId, long offset, long limit) {
+        List<Seckill> seckills = null;
+
+        if (merchantId == null) {
+            seckills = seckillDao.queryAll(offset, limit);
+        } else {
+            if (merchantId == 0) {
+                seckills = seckillDao.queryAllbyMall(offset, limit);
+            } else {
+                seckills = seckillDao.queryAllbyMerchant(merchantId, offset, limit);
+            }
+        }
         return seckillDtoMapper.mapperList(seckills);
     }
 

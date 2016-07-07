@@ -30,7 +30,34 @@
     <select id="queryAll" resultType="GroupBuying">
         SELECT *
         FROM group_buyings
-        WHERE examine = TRUE AND publish = TRUE AND group_buyings.end_time <![CDATA[>=]]> now()
+        WHERE examine = TRUE
+              AND publish = TRUE
+              AND group_buyings.end_time <![CDATA[>=]]> now()
+        ORDER BY created_at DESC
+        LIMIT #{limit}
+        OFFSET #{offset}
+    </select>
+
+
+    <select id="queryAllbyMerchant" resultType="GroupBuying">
+        SELECT *
+        FROM group_buyings
+        WHERE examine = TRUE
+        AND group_buyings.publish =TRUE
+        AND end_time <![CDATA[>=]]> now()
+        AND group_buyings.merchant_id =#{merchant_id}
+        ORDER BY created_at DESC
+        LIMIT #{limit}
+        OFFSET #{offset}
+    </select>
+
+    <select id="queryAllbyMall" resultType="GroupBuying">
+        SELECT *
+        FROM group_buyings
+        WHERE examine = TRUE
+        AND group_buyings.publish =TRUE
+        AND end_time <![CDATA[>=]]> now()
+        AND group_buyings.merchant_id IS NULL
         ORDER BY created_at DESC
         LIMIT #{limit}
         OFFSET #{offset}

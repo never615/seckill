@@ -70,6 +70,24 @@ public class SeckillDaoTest {
         }
     }
 
+
+    /**
+     * 测试查询全部秒杀商品
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testQueryAllbyMerchantId() throws Exception {
+        System.out.println("-----------------------------------");
+
+//        Java没有保存形参的记录:QueryAll(int offset,int limit)->QueryAll(arg0,arg1);
+//      因为java形参的问题,多个基本类型参数的时候需要用@Param("seckillId")注解区分开来
+        List<Seckill> seckills = seckillDao.queryAllbyMerchant(1,0, 100);
+        for (Seckill seckill : seckills) {
+            System.out.println(seckill);
+        }
+    }
+
 //    /**
 //     * 测试减少秒杀商品数量
 //     *

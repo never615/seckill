@@ -46,12 +46,12 @@ public class GroupBuyingController {
      * @return
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    public String list(Model model, @RequestParam("page") int page) {
+    public String list(Model model, @RequestParam("page") int page, @RequestParam(value = "merchant_id",required = false) Long merchantId) {
 
         // FIXME: 6/16/16 一页的数量使用配置文件
         long offset = (page - 1) * 20;
         long limit = 20;
-        model.addAttribute("list", groupBuyingService.getGroupBuyingList(offset, limit));
+        model.addAttribute("list", groupBuyingService.getGroupBuyingList(merchantId, offset, limit));
         return "groupbuying/list";
     }
 
@@ -78,11 +78,12 @@ public class GroupBuyingController {
 
     /**
      * 团购成功界面
+     *
      * @param model
      * @return
      */
-    @RequestMapping(value = "success",method = RequestMethod.GET)
-    public String success(Model model){
+    @RequestMapping(value = "success", method = RequestMethod.GET)
+    public String success(Model model) {
         return "groupbuying/success";
     }
 

@@ -3,7 +3,6 @@ package org.seckill.service;
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillDto;
 import org.seckill.dto.SeckillExecution;
-import org.seckill.entity.Seckill;
 
 import java.util.List;
 
@@ -19,11 +18,13 @@ public interface SeckillService {
     /**
      * 查询秒杀列表
      *
+     *
+     * @param merchantId
      * @param offset 偏移量
      * @param limit  请求的数量
      * @return
      */
-    List<SeckillDto> getSeckillList(long offset, long limit);
+    List<SeckillDto> getSeckillList(Long merchantId, long offset, long limit);
 
 
     /**

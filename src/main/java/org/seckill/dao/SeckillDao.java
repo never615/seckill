@@ -3,7 +3,6 @@ package org.seckill.dao;
 import org.apache.ibatis.annotations.Param;
 import org.seckill.entity.Seckill;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +41,27 @@ public interface SeckillDao {
     List<Seckill> queryAll(@Param("offset") long offset, @Param("limit") long limit);
 
     /**
+     * 根据店铺id查询响应的秒杀商品
+     *
+     * @param merchantId 店铺id
+     * @param offset
+     * @param limit
+     * @return
+     */
+    List<Seckill> queryAllbyMerchant(@Param("merchant_id") long merchantId, @Param("offset") long offset, @Param("limit") long limit);
+
+    /**
+     * 查询商场对应的秒杀商品
+     *
+     * @param offset
+     * @param limit
+     * @return
+     */
+    List<Seckill> queryAllbyMall(@Param("offset") long offset, @Param("limit") long limit);
+
+    /**
      * 使用存储过程执行秒杀,效率更高
+     *
      * @param paramMap
      */
     void killByProcedure(Map<String, Object> paramMap);

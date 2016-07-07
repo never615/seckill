@@ -2,7 +2,6 @@ package org.seckill.service;
 
 import org.seckill.dto.GroupBuyingDto;
 import org.seckill.dto.GroupBuyingExecution;
-import org.seckill.entity.GroupBuying;
 import org.seckill.exception.GroupBuyingCloseException;
 import org.seckill.exception.GroupBuyingException;
 import org.seckill.exception.OutOfGroupBuyingLimitException;
@@ -20,11 +19,13 @@ public interface GroupBuyingService {
     /**
      * 查询团购列表
      *
+     *
+     * @param merchantId
      * @param offset 偏移量
      * @param limit  限制
      * @return 团购商品列表
      */
-    List<GroupBuyingDto> getGroupBuyingList(long offset, long limit);
+    List<GroupBuyingDto> getGroupBuyingList(Long merchantId, long offset, long limit);
 
     /**
      * 查询单个团购商品

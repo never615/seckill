@@ -3,7 +3,7 @@ DROP TABLE group_buyings;
 --------------------- 1.团购商品表----------------------
 CREATE TABLE group_buyings(
   id                SERIAL,
-  merchant_id        INTEGER      REFERENCES merchants,
+  merchant_id        INTEGER      REFERENCES merchants ,
   name              VARCHAR      NOT NULL,
   logo              VARCHAR,
   describe          VARCHAR,

@@ -33,6 +33,32 @@
         OFFSET #{offset}
     </select>
 
+
+    <select id="queryAllbyMerchant" resultType="Seckill">
+        SELECT *
+        FROM seckills
+        WHERE examine = TRUE
+              AND seckills.publish =TRUE
+              AND end_time <![CDATA[>=]]> now()
+              AND seckills.merchant_id =#{merchant_id}
+        ORDER BY created_at DESC
+        LIMIT #{limit}
+        OFFSET #{offset}
+    </select>
+
+    <select id="queryAllbyMall" resultType="Seckill">
+        SELECT *
+        FROM seckills
+        WHERE examine = TRUE
+        AND seckills.publish =TRUE
+        AND end_time <![CDATA[>=]]> now()
+        AND seckills.merchant_id IS NULL
+        ORDER BY created_at DESC
+        LIMIT #{limit}
+        OFFSET #{offset}
+    </select>
+
+
     <!-- mybatis调用存储过程 -->
     <!--<select id="killByProcedure" statementType="CALLABLE">-->
     <select id="killByProcedure" statementType="CALLABLE" parameterType="map">

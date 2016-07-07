@@ -41,15 +41,16 @@ public class SeckillController {
      *
      * @param model
      * @param page  页数
+     * @param merchantId 店铺id  取0时表示商城
      * @return
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    public String list(Model model, @RequestParam("page") int page) {
+    public String list(Model model, @RequestParam("page") int page,@RequestParam(value = "merchant_id",required = false) Long merchantId ) {
 
         // FIXME: 6/16/16 一页的数量使用配置文件
         long offset = (page - 1) * config.getPageItems();
         long limit = config.getPageItems();
-        model.addAttribute("list", seckillService.getSeckillList(offset, limit));
+        model.addAttribute("list", seckillService.getSeckillList(merchantId,offset, limit));
         return "seckill/list";
     }
 

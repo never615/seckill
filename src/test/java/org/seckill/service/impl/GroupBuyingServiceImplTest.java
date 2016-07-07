@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seckill.dto.GroupBuyingDto;
 import org.seckill.dto.GroupBuyingExecution;
-import org.seckill.entity.GroupBuying;
 import org.seckill.service.GroupBuyingService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -28,7 +27,7 @@ public class GroupBuyingServiceImplTest {
 
     @Test
     public void testGetGroupBuyingList() throws Exception {
-        List<GroupBuyingDto> groupBuyingList = groupBuyingService.getGroupBuyingList(0, 10);
+        List<GroupBuyingDto> groupBuyingList = groupBuyingService.getGroupBuyingList(0l, 0, 10);
         for (GroupBuyingDto groupBuying : groupBuyingList) {
             System.out.println(groupBuying);
         }

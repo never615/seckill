@@ -38,4 +38,23 @@ public interface GroupBuyingDao {
      * @return
      */
     List<GroupBuying> queryAll(@Param("offset") long offset, @Param("limit") long limit);
+
+    /**
+     * 根据店铺id查询响应的团购商品
+     *
+     * @param merchantId 店铺id
+     * @param offset
+     * @param limit
+     * @return
+     */
+    List<GroupBuying> queryAllbyMerchant(@Param("merchant_id") long merchantId, @Param("offset") long offset, @Param("limit") long limit);
+
+    /**
+     * 查询商场对应的团购商品
+     *
+     * @param offset
+     * @param limit
+     * @return
+     */
+    List<GroupBuying> queryAllbyMall(@Param("offset") long offset, @Param("limit") long limit);
 }

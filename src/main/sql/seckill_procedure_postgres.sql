@@ -47,7 +47,7 @@ BEGIN
       THEN
         result:=0;
       ELSE
-        result:=8004;
+        result:=8005;
       END IF;
     ELSEIF (insert_count = 0)
       THEN

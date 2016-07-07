@@ -38,8 +38,16 @@ public class GroupBuyingServiceImpl implements GroupBuyingService {
     @Autowired GroupBuyingDtoMapper groupBuyingDtoMapper;
 
     @Override
-    public List<GroupBuyingDto> getGroupBuyingList(long offset, long limit) {
-        return groupBuyingDtoMapper.mapperList(groupBuyingDao.queryAll(offset, limit));
+    public List<GroupBuyingDto> getGroupBuyingList(Long merchantId, long offset, long limit) {
+        if(merchantId==null){
+            return groupBuyingDtoMapper.mapperList(groupBuyingDao.queryAll(offset, limit));
+        }else{
+            if(merchantId==0){
+                return groupBuyingDtoMapper.mapperList(groupBuyingDao.queryAllbyMall(offset, limit));
+            }else {
+                return groupBuyingDtoMapper.mapperList(groupBuyingDao.queryAllbyMerchant(merchantId,offset, limit));
+            }
+        }
     }
 
     @Override
