@@ -151,3 +151,7 @@ body {
 .good-buy-background-grey{
     background-color:#cccccc ;
 }
+.good-details p img{
+    width: 100%;
+    max-width: 100%;
+}
