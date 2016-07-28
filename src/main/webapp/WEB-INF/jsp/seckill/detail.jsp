@@ -115,7 +115,7 @@
         })()
 
     })
-     seckill.handlerSeckill(${seckill.id});
+     seckill.handlerSeckill(${seckill.id},${seckill.integral});
 
 </script>
 </html>

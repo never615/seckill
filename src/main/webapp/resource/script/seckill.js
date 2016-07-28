@@ -97,7 +97,7 @@ var seckill = {
         }, 1000);
     },
     //执行秒杀
-    handlerSeckill: function (seckillId) {
+    handlerSeckill: function (seckillId,seckillIntegral) {
         //获取秒杀地址,控制显示器,执行秒杀
         $.get(seckill.URL.exposer(seckillId), {}, function (result) {
             //在回调函数中执行交互流程
@@ -117,7 +117,6 @@ var seckill = {
                             if (isWx) {
                                 window.location = "http://api.ifengguo.com/wechat_auth/public/index.php/seaworld_wechat/wechat_auth?redirect="+location.href;
                                 return;
-                                return;
                             } else if (app) {
                                 var href = location.href;
                                 href = "zh-login://+" + href;
@@ -134,37 +133,39 @@ var seckill = {
                             //微信或者app
                         }
                         //执行秒杀请求
-                        //1.先禁用按钮
-                        //2.发送秒杀请求执行秒杀
-                        $.ajax({
-                            method: "POST",
-                            url: killUrl,
-                            //todo 测试header
-                            headers: {
-                                Authorization: 'Bearer{'+token+'}'
-                            },
-                            statusCode: {
-                                500: function () {
-                                    $.alert("服务器错误！");
-                                }
-                            },
-                            success: function (result) {
-                                if (result && result['code'] == 0) {
-                                    var killResult = result['data'];
-                                    var state = killResult['state'];
-                                    var stateInfo = killResult['stateInfo'];
-                                    if (state == 0) {
-                                        //跳转到秒杀成功界面
-                                        window.location.href = "/seckill/success";
-                                    } else {
-                                        //显示秒杀结果
-                                        $.alert(stateInfo);
+                        //确认扣减积分
+                        $.confirm(seckillIntegral, "扣减积分", function () {
+                            $.ajax({
+                                method: "POST",
+                                url: killUrl,
+                                //todo 测试header
+                                headers: {
+                                    Authorization: 'Bearer{'+token+'}'
+                                },
+                                statusCode: {
+                                    500: function () {
+                                        $.alert("服务器错误！");
                                     }
-                                } else {
-                                    $.alert(result['msg']);
+                                },
+                                success: function (result) {
+                                    if (result && result['code'] == 0) {
+                                        var killResult = result['data'];
+                                        var state = killResult['state'];
+                                        var stateInfo = killResult['stateInfo'];
+                                        if (state == 0) {
+                                            //跳转到秒杀成功界面
+                                            window.location.href = "/seckill/success";
+                                        } else {
+                                            //显示秒杀结果
+                                            $.alert(stateInfo);
+                                        }
+                                    } else {
+                                        $.alert(result['msg']);
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        })
+
 
                     });
 
