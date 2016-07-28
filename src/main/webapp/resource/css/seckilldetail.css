@@ -155,3 +155,7 @@ body {
     width: 100%;
     max-width: 100%;
 }
+.weui_dialog_bd {
+    color: #f23030;
+    font-size: 18px;
+}
