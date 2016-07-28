@@ -56,9 +56,6 @@
     </div>
     <div class="good-details">
         ${groupbuying.details}
-        <img src="//m.360buyimg.com/n12/jfs/t1891/336/2668417800/149602/3e7ebe21/56efc039N8d571c49.jpg!q70.jpg" width="100%" />
-        <img src="//m.360buyimg.com/n12/jfs/t1891/336/2668417800/149602/3e7ebe21/56efc039N8d571c49.jpg!q70.jpg" width="100%" />
-        <img src="//m.360buyimg.com/n12/jfs/t1891/336/2668417800/149602/3e7ebe21/56efc039N8d571c49.jpg!q70.jpg" width="100%" />
     </div>
     <div class="good-footer">
     </div>
