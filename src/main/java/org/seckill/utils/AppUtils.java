@@ -16,9 +16,11 @@ public class AppUtils {
      */
     public static String createVerificationCode(String type, long userId, long id) {
 
-        String part1 = String.format("%09d", userId);
-        String part2 = String.format("%010d", id);
-        return type + part1 + part2;
+//        String part1 = String.format("%09d", userId);
+//        String part2 = String.format("%010d", id);
+        String part2 = String.format("%015d", id);
+//        return type + part1 + part2;
+        return type  + part2;
     }
 
 }
